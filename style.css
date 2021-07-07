@@ -1,0 +1,526 @@
+
+*{
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: rgb(235, 235, 235);
+    width: 100%;
+    /* max-width: 2000px; */
+    /* margin: auto; */
+}
+
+.div-main-body{
+    max-width: 800px;
+    margin: auto;
+}
+
+.nav-largeur-fixe{
+    max-width: 2000px;
+    margin: auto;
+}
+
+/* --------------------------HEADER---------------------------------- */
+
+header{
+    height: 20px;
+}
+.ul-navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0pt;
+    padding: 0;
+}
+
+.nav-item{
+    padding: 0 0.7rem;
+    
+}
+
+.nav-link-modif-1{
+    font-size: 1.2rem;
+}
+
+
+.btn-recherche{
+    width: 40px;
+    height: 71%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: -15px;
+    border-radius: 0 30px 30px 0;
+    background-color: darkgoldenrod;
+    padding: 0 !important;
+    
+}
+
+.fa-search{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-recherche > a{
+    text-decoration: none;
+}
+
+.nav-link{
+    color: rgb(224, 219, 219);
+    font-weight: bold;
+}
+
+
+
+.div-bannierre{
+    background:linear-gradient( 45deg, rgb(175, 30, 30), rgb(170, 15, 209)  );
+    padding: 8rem 0 5rem 0;
+    height: 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.titre-principal{
+    font-size: 2.3rem;
+    color: white;
+    
+}
+.slogan{
+    font-size: 1.3rem;
+    color: white;
+}
+
+
+.text-center{
+    padding: 0.5rem;
+}
+
+.form-control-modif-1{
+    width: 230px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.recherche_p{
+    position: relative;
+}
+
+.description{
+    text-align: justify;
+    padding: .5rem
+}
+
+/* --------------------------BODY---------------------------------- */
+
+
+/* .titre-section{
+    font-size: 1.5rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+   
+}
+
+.titre-section::after{
+
+    position: absolute;
+    content: "";
+    display: block;
+    bottom: -10px;
+    width:30%;
+    height: 0.2rem;
+    align-items: center;
+    
+    border: 2px solid coral;
+} */
+
+.div-card{
+    padding: 0 0.5rem
+}
+.card, .card-modif-1{
+    border: 1px solid rgb(243, 118, 46);
+    margin: 1.5rem 0;
+    padding: 0.2rem;
+    
+}
+
+.card-modif-1:hover{
+    border: 1px solid rgb(148, 4, 161);
+    
+}
+
+/* .card img{
+    max-width: 322px;
+    max-height: 208px;
+} */
+
+/* .card-chaise-modif-1 img{
+    max-height: 400px;
+    object-fit: cover;
+    object-position: 0% 0%;
+    
+} */
+
+
+.lead{
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.div-article-titre-prix{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.card{
+    margin-bottom: 2rem;
+}
+
+
+/* ---------------------PAGE PANIER----------------- */
+
+
+/* ---------------FOOTER------------------------------ */
+
+/* .lien-footer{
+    color: white;
+} */
+
+.footer{
+    margin-top: 1rem;
+}
+
+.titre-footer a{
+    color: white;
+}
+
+.titre-footer > a{
+    font-size: 1rem;
+}
+
+.liste-media-footer{
+    padding-left: 0;
+}
+
+li{
+    list-style: none;
+}
+
+
+/* -----------------------PAGE DETAIL ARTICLE--------------------- */
+
+.titre-detail-produit{
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 1rem 0;
+    color: chocolate;
+}
+
+.div-detail-article{
+    text-align: justify;
+    padding: 0.2rem;
+}
+
+
+
+.titre-article-modif-1{
+    font-size: 1.3rem;
+    margin: 0.3rem 0;
+}
+
+.libelle-detail{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.titre-label{ 
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.champ-selection{
+    width: 80px;
+    padding: 0.5rem;
+    border: 1px solid rgb(141, 138, 138);
+    border-radius: 10px;
+}
+
+.champ-selection-modif-1{
+    width: 150px;
+    padding: 0.5rem;
+    margin-bottom: 0.7rem;
+}
+
+.div-select-prix{
+    
+    margin-bottom: 0.3rem;
+}
+.div-slect-btn{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+
+
+@media screen and (min-width: 280px) {
+
+    .navbar{
+        padding: 00.5rem;
+    }
+
+    .nav-link-modif-1{
+        font-size: 0.8rem;
+    }
+    
+    .titre-article-modif-1{
+        font-size: 1rem;
+        margin: 0.2rem 0;
+    }
+
+    .libelle-detail{
+        font-size: 1rem;
+    }
+
+    .lead-motif-1{
+        font-size: 0.8rem;
+    }
+
+    .btn-modif-1{
+        padding: 0.1rem;
+        font-size: 0.7rem;
+    }
+
+
+    .produit, .quantite, .sous-total{
+        font-size: 0.7rem;
+    }
+    
+}
+
+
+.div-bouton{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-modif-1{
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+}
+
+
+@media screen and (min-width: 320px){
+    .btn-recherche{
+        padding: .2rem;
+       
+    }
+}
+
+
+
+
+/* -----------------------PAGE PANIER--------------------- */
+
+.container-recapitulalitf, 
+.container-montant-total, 
+.div-btn-commande-vider{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.div-nom-produit{
+    width: 50%;
+}
+
+.fa-trash-alt{
+    width: 10%;
+}
+
+.btn-info, 
+.btn-success,
+.fa-trash-alt{
+    cursor: pointer;
+}
+
+
+
+
+
+.container-article-panier{
+    border: 1px solid coral;
+}
+
+.produit, .quantite, .supprimer, .sous-total{
+    border: 1px solid rgb(125, 143, 245);
+    padding: 0.1rem;
+    text-align: center;
+}
+
+.span-titre-panier{
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.produit{
+    border-radius: 10px 0 0 10px ;
+}
+
+.supprimer{
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: .7s ease 0.2s;
+    
+}
+
+.fa-trash-alt{
+    vertical-align: middle;
+}
+
+.supprimer:hover{
+    background-color: rgb(248, 143, 164);
+}
+
+.titre-article-modif-2{
+    font-size: 0.7rem;
+    margin: 0;
+}
+
+.produit img{
+    width: 50px;
+    height: 50px;
+    padding: 0 0 0.2rem 0.2rem;
+}
+.img-titre-panier{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.div-prix-total{
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 1rem 0 3rem 0;
+}
+
+.panier{
+    padding: .2rem;
+}
+.titre-formulaire{
+    font-size: 1.2rem;
+}
+
+.footer-panier{
+    margin-top: 2rem;
+    
+}
+
+
+/* ----------------------PAGE CONFIRMATION---------------------------- */
+
+.div-confirmation{
+    font-size: 1.2rem;
+    text-align: center;
+    border: 1px solid rgb(62, 246, 77);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+/* -----------------------TABLETTE----------------------------------- */
+@media screen and (min-width: 768px){
+    
+    .div-bannierre{
+        padding: 8rem 0;
+    }
+    .nav-link-modif-1{
+        font-size: 1.5rem;
+    }
+
+    .text-center-modif-1{
+        font-size: 1.5rem;
+    }
+
+    /* .titre-section{
+        font-size: 1.8rem;
+        justify-content: center;
+    }
+
+    .titre-section::after{
+        width:10%;
+        bottom: -15px;
+        height: 0.5rem;
+        background-color: coral;
+        border-radius: 50px;
+    } */
+
+    .card-modif-1{
+        max-width: 400px;
+        max-height: 400px;
+        margin: 3rem 0;
+    }
+
+
+    .card-modif-1{
+        transform: scale(1);
+        transition: transform .5s ease-in;
+    
+    }
+
+    .card-modif-1:hover{
+        transform: scale(1.05);
+    
+    }
+
+    /* .card-chaise-modif-1{
+        width: 400px;
+        height: 400px;
+    } */
+
+    /* .card-chaise-modif-1 img{
+    max-height: 400px;
+    object-fit: cover;
+    object-position: 0% 0%;
+    
+} */
+    .titre-article{
+        font-size:1rem
+    }
+    .div-card{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+   .media-largeur-fixe{
+       max-width: 500px;
+       margin: auto;
+   }
+
+
+}
+
+@media screen and (min-width: 1000px){
+    .main-container{
+        max-width: 75%;
+        min-width: 280px;
+        margin: auto;
+    }   
+
+}
