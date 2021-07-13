@@ -1,60 +1,58 @@
 /*|||||||||||||||||| Début----RECUPERATION DE L'ID ARTICLES DANS L'URL ||||||||||||||||*/
 
-// const recupUrlArticle = window.location.search   /*Récupérer l'ID de l'article depuis l'URL*/
-// console.log(recupUrlArticle);
-
-// const recupIdArticle = recupUrlArticle.slice(1);   /*Extraitre l'ID de l'article sans le point d'interrogation*/ 
-// console.log(recupIdArticle);
-
 let params = (new URL(document.location)).searchParams;
 let recupIdArticle = params.get('id'); // Récupère la valeur correspondante à l'ID
-console.log(recupIdArticle);
 
 /*|||||||||||||||||||| Fin----RECUPERATION DE L'ID ARTICLES DANS L'URL ||||||||||||||||||*/
 
 
+/*||||||||||||||||||||| Début----RECUPERATION DE L'ARTICLE AU CLIQUE DANS L'API |||||||||||||||||||*/
+
+/* cette fonction va faire le fetch puis filtrer le bon article à retourner :*/
+async function recupDataArticleDansAPI(id = null) { /* NB: id est nulle par défaut, c'est à dire dans le cas où elle n'est pas indiquée dans les parametres à l'appel de getData() */
+    try {
+        const data = await fetch(`http://localhost:3000/api/furniture/`); /* stocke le fichier récupéré depuis l'API, await permet d'attendre que le fetch soit réalisé avant d'exécuter la suite en dessous */
+        const json = await data.json() /* convertit en JSON le fichier récupéré depuis l'API, idem pour await*/;
+        if (id) { /* NB: meme chose que: id != null */
+           let articleChoisi = json.find(article => article._id == id); /* NB: ici la fonction find() permet de ne retourner que l'article qui nous intéresse parmi tous les articles contenus dans le tableau 'json' */
+           return articleChoisi
+           
+        }
+        else{
+            return json
+        }
+    } catch (error) {
+        console.log(error);
+        return []; /* NB: on retournne un tableau vide */
+    }
+}
 
 
-/*||||||||||||||||||||| Début----ENVOI DE L'ID ARTICLES DANS L'URL |||||||||||||||||||*/
-
-let articleCliquer = fetch(`http://localhost:3000/api/furniture/${recupIdArticle}`)
-    .then (function(resAPI){
-                            return resAPI.json()      /*Fonction qui stock et convertit ensuite en JSON le fichier récupéré depuis l'API*/
-                                })
-
-                        .then (function(articles){    /*Fonction qui permet de renommer les fichiers récupérés et les retournes partout où ils sont appelés*/
-                                    return articles
-                                    
-                                }) 
-
-                        .catch (function(error){       /*Fonction qui affiche le message signalant un problème de téléchargement*/
-                            alert("Une erreur est survenue lors du chargement des fichiers depuis l'API")
-                        })
-
-/*||||||||||||||||||| Fin----ENVOI DE L'ID ARTICLES DANS L'URL ||||||||||||||||||||||||*/
+/*||||||||||||||||||| Fin----RECUPERATION DE L'ARTICLE CLIQUE DANS L'API ||||||||||||||||||||||||*/
 
 
 
-/*||||||||||||||||||||| Début----AFFICHAGE ARTICLES SELECTIONNE ||||||||||||||||||||||||*/
+/*||||||||||||||||||||| Début----AFFICHAGE DE L'ARTICLE AU CLIQUE ||||||||||||||||||||||||*/
 
-const structureArticleSelectionner = `
+function creerStructureArticle(articleChoisi){
+    return `
 
-    <div class="card ">
-        <img src="${articleCliquer.imageUrl}" class="img-card" >
+    <div class="card  col-md-6">
+        <img src="${articleChoisi.imageUrl}" class="img-card" >
 
         <div class="div-article-titre-prix">
-            <h4 class="titre-article">${articleCliquer.name}</h4>
-            <span class="lead">Prix: ${articleCliquer.price / 100}.00 €</span>
+            <h4 class="Bold text">${articleChoisi.name}</h4>
+            <span class="lead">Prix : ${articleChoisi.price / 100}.00 €</span>
         </div>
 
-        <figcaption class="description">${articleCliquer.description}</figcaption>
+        <figcaption class="description">${articleChoisi.description}</figcaption>
 
         <div class="div-slect-btn">
 
             <form class="div-select" id "form-perso-article">
                 <label class="titre-label" for="">Vernisage</label>
                 <select class="champ-selection champ-selection-modif-1" id="monselect">
-                    
+                   
                 </select>
             </form>
 
@@ -63,36 +61,45 @@ const structureArticleSelectionner = `
         </div>
     </div>
 
-`;
+`
+}
 
 // Injection de la structure HTML de l'article sélectionné dans le HTLM
 const conteneurArticleSelectionner = document.getElementById("container-article");
-conteneurArticleSelectionner.innerHTML = structureArticleSelectionner;
+// conteneurArticleSelectionner.innerHTML = structureArticleSelectionner;
 
-/*|||||||||||||||||||||||| Fin----AFFICHAGE ARTICLES SELECTIONNE |||||||||||||||||||||||||||||*/
+// NB: la fonction getDataArticleCliquer() est asynchrone et renvoie une promesse, on peut donc utiliser '.then' dessus afin de ne pas bloquer le déroulement du programme
+// NB: console.log(getDataArticleCliquer(recupIdArticle)) permet de voir que c'est bien une promesse et de voir son état (pending/fulfilled)
+recupDataArticleDansAPI(recupIdArticle).then(article => {
+    // Affcihe la structure de l'article sélectionné 
+    conteneurArticleSelectionner.innerHTML = creerStructureArticle(article)
+
+    /*---------------------PSEUDO CODE option de vernisage-----------------*/ 
+    // D'abord récupérer tous les tableaux de vernis dans l'API en se servant des données du Fetch 
+    const tableauVernis = recupDataArticleDansAPI().varnish;
+    console.log(tableauVernis);
+
+    // Ensuite, récupérer les options de vernissage de chaque article selon le contenu de son tableau
+    for(let j= 0; j < tableauVernis.length; j++){
+    const verniChoisi = verniChoisi +`
+        <option value="${tableauVernis[j]}"selected>${tableauVernis[j]}</option>
+    ` ;
+    }
+    // En fin, afficher dans la carte article ses options de vernisage
+    const vernisArticle = document.getElementById("monselect");
+
+    let verniChoisi = [];
+    vernisArticle.innerHTML = verniChoisi;
+})
+
+/*|||||||||||||||||||||||| Fin----AFFICHAGE DE L'ARTICLE AU CLIQUE |||||||||||||||||||||||||||||*/
+
+
 
 
 
 
 /*||||||||| Début----PERSONNALISATION DE L'ARTICLE SELECTIONNE et GESTION DU PANIER ||||||||||*/
-
-// Envoi des options de personnalisation de l'article dans la carte-article
-const vernisAPI = document.getElementById("monselect");
-let verniSelectionner = [];
-vernisAPI.innerHTML = verniSelectionner;
-
-// Choix du verni
-const choixDuVerni = articleCliquer.varnish;
-
-// Pour afficher toutes les options de vernissage de l'article depuis l'API
-for(j= 0; j < choixDuVerni.length; j++){
-    const verniSelectionner = verniSelectionner +`
-        <option value="${choixDuVerni[j]}"selected>${choixDuVerni[j]}</option>
-    ` ;
-}
-
-// Récupération des données personnalisées 
-const vernisArticle = document.getElementById("monselect");
 
 // Ciblage du bouton d'ajout dans le panier depuis le DOM
 const btnAcheter = document.querySelector(".btn-acheter"); 
@@ -107,11 +114,11 @@ btnAcheter.addEventListener("click", (event) => {
 
     //  Récupérer les données de l'article customisé 
     let articleVernisChoisi = {
-        id:articleCliquer._id,
-        imageUrl: articleCliquer.imageUrl,
-        name: articleCliquer.name,
-        price: articleCliquer.price / 100,
-        varnish: articleCliquer.articlePersonnaliser,
+        id:articleChoisi._id,
+        imageUrl: articleChoisi.imageUrl,
+        name: articleChoisi.name,
+        price: articleChoisi.price / 100,
+        varnish: articleChoisi.articlePersonnaliser,
     };
 
     /*--------STOCKAGE DE L'ARTICLE CUSTOMISÉ DANS LE LOCAL STORAGE-------------*/ 
@@ -121,7 +128,7 @@ btnAcheter.addEventListener("click", (event) => {
 
     // Fonction pop up pour confirmer ou non la commande de l'article
     const popupConfirmation = () =>{
-        if(window.confirm(`${articleCliquer._id}" option : ${articleCliquer.articlePersonnaliser} a bien été ajouté au panier
+        if(window.confirm(`${articleChoisi._id}" option : ${articleChoisi.articlePersonnaliser} a bien été ajouté au panier
     consulter le panier OK ou continuer vos achats CONTINUER`)){
             window.location.href = "/P5_front-end/html/panier.html"
         }
