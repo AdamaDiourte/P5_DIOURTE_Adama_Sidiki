@@ -76,18 +76,19 @@ recupDataArticleDansAPI(recupIdArticle).then(article => {
 
     /*---------------------PSEUDO CODE option de vernisage-----------------*/ 
     // D'abord récupérer tous les tableaux de vernis dans l'API en se servant des données du Fetch 
-    const tableauVernis = recupDataArticleDansAPI().varnish;
+    const tableauVernis = article.varnish;
     console.log(tableauVernis);
 
     // Ensuite, récupérer les options de vernissage de chaque article selon le contenu de son tableau
-    for(let j= 0; j < tableauVernis.length; j++){
+    for(let j = 0; j < tableauVernis.length; j++){
     const verniChoisi = verniChoisi +`
         <option value="${tableauVernis[j]}"selected>${tableauVernis[j]}</option>
     ` ;
     }
     // En fin, afficher dans la carte article ses options de vernisage
     const vernisArticle = document.getElementById("monselect");
-
+    console.log(vernisArticle);
+    
     let verniChoisi = [];
     vernisArticle.innerHTML = verniChoisi;
 })
