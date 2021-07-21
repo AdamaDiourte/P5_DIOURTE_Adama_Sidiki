@@ -36,7 +36,6 @@ async function recupDataArticleDansAPI(id = null) { /* NB: id est nulle par déf
 
 function creerStructureArticle(articleChoisi){
     return `
-
     <div class="card  col-md-6">
         <img src="${articleChoisi.imageUrl}" class="img-card" >
 
@@ -46,21 +45,16 @@ function creerStructureArticle(articleChoisi){
         </div>
 
         <figcaption class="description">${articleChoisi.description}</figcaption>
-
         <div class="div-slect-btn">
-
             <form class="div-select" id "form-perso-article">
                 <label class="titre-label" for="">Vernisage</label>
                 <select class="champ-selection champ-selection-modif-1" id="monselect">
                    
                 </select>
             </form>
-
-            <a href="/P5_front-end/html/panier.html"><button type="submit"class="btn btn-secondary btn-modif-1 btn-acheter">Ajouter au panier</button></a>
-                
+             <a href="/P5_front-end/html/panier.html"><button type="button" onclick='ajouterAuPanier(${JSON.stringify(articleChoisi)})' class="btn btn-secondary btn-modif-1 ">Ajouter au panier</button></a>
         </div>
     </div>
-
 `
 }
 
@@ -75,22 +69,26 @@ recupDataArticleDansAPI(recupIdArticle).then(article => {
     conteneurArticleSelectionner.innerHTML = creerStructureArticle(article)
 
     /*---------------------PSEUDO CODE option de vernisage-----------------*/ 
-    // D'abord récupérer tous les tableaux de vernis dans l'API en se servant des données du Fetch 
+    // D'abord récupérer le tableau de vernis de l'article cliqué depuis l'API en se servant des données du Fetch 
     const tableauVernis = article.varnish;
-    console.log(tableauVernis);
-
-    // Ensuite, récupérer les options de vernissage de chaque article selon le contenu de son tableau
-    for(let j = 0; j < tableauVernis.length; j++){
-    const verniChoisi = verniChoisi +`
-        <option value="${tableauVernis[j]}"selected>${tableauVernis[j]}</option>
-    ` ;
-    }
-    // En fin, afficher dans la carte article ses options de vernisage
-    const vernisArticle = document.getElementById("monselect");
-    console.log(vernisArticle);
     
-    let verniChoisi = [];
-    vernisArticle.innerHTML = verniChoisi;
+    let listeVernis = "";
+    // Ensuite, envoyer les options de vernissage dans le champ de sélection de la carte article
+    for(let j = 0; j < tableauVernis.length; j++){
+        
+        listeVernis +=`
+            <option value="${tableauVernis[j]}"selected>${tableauVernis[j]}</option>
+        ` ;
+
+        // Mettre le tableau de vernis dans la balise select
+        const selectBalise = document.getElementById("monselect");
+        
+
+        selectBalise.innerHTML = listeVernis;
+       
+    }
+
+    
 })
 
 /*|||||||||||||||||||||||| Fin----AFFICHAGE DE L'ARTICLE AU CLIQUE |||||||||||||||||||||||||||||*/
@@ -102,16 +100,10 @@ recupDataArticleDansAPI(recupIdArticle).then(article => {
 
 /*||||||||| Début----PERSONNALISATION DE L'ARTICLE SELECTIONNE et GESTION DU PANIER ||||||||||*/
 
-// Ciblage du bouton d'ajout dans le panier depuis le DOM
-const btnAcheter = document.querySelector(".btn-acheter"); 
 
-// Envoie de l'article au panier après un clique sur le bouton 
-btnAcheter.addEventListener("click", (event) => {
-    
-    event.preventDefault();
-    
-    // Mettre le choix de l'utilisateur dans une variable 
-    const articlePersonnaliser = vernisArticle.value;
+function ajouterAuPanier(articleChoisi){
+    // TODO: à faire plus tard. Mettre le choix de l'utilisateur dans une variable 
+    // const articlePersonnaliser = listeVernis.value;  
 
     //  Récupérer les données de l'article customisé 
     let articleVernisChoisi = {
@@ -122,9 +114,7 @@ btnAcheter.addEventListener("click", (event) => {
         varnish: articleChoisi.articlePersonnaliser,
     };
 
-    /*--------STOCKAGE DE L'ARTICLE CUSTOMISÉ DANS LE LOCAL STORAGE-------------*/ 
-
-    // Déclaration de la variable "produitEnregistrerDansLeLocalStorage" dans laquelle on met les clé et les vlauers dans le local STORAGE
+    // Déclaration de la variable "produitEnregistrerDansLeLocalStorage" dans laquelle on met les clés et les valeurs dans le local STORAGE
     let produitEnregistrerDansLeLocalStorage = JSON.parse(localStorage.getItem("produit")); /*La méthode JSON.parse sert à convertir les données du local storage qui sont au format JSON en objet JavaScript*/
 
     // Fonction pop up pour confirmer ou non la commande de l'article
@@ -157,6 +147,8 @@ btnAcheter.addEventListener("click", (event) => {
 
     }
 
-})
+}
+
+
 
 /*|||||||||||| Fin----PERSONNALISATION DE L'ARTICLE SELECTIONNE et GESTION DU PANIER |||||||||*/

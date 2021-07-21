@@ -1,7 +1,7 @@
 /*|||||||| Début----AFFICHAGE DYNAMIQUE DES ARTCILES SELECTIONNES DANS LE PANIER  |||||||||*/ 
 
 let produitEnregistrerDansLeLocalStorage = JSON.parse(localStorage.getItem("produit")); /*La méthode JSON.parse sert à convertir les données du local storage qui sont au format JSON en objet JavaScript*/
-
+console.log(produitEnregistrerDansLeLocalStorage);
 const conteneurArticleDansLePanier = document.getElementById("container-article-panier"); /* conteneur où seront injectés les produits envoyés dans le panier */
 
 // --------Message à afficher selon l'état du panier
@@ -28,9 +28,9 @@ else{
 
     // ---------Boucle FOR sert afficher les articles selon le nombre de choix du client 
 
-    const structreProduitPanier = []; /* variable vide au départ mais se remplit au fur et mesure que le client choisse un article*/
-    
-    for(k = 0; k < produitEnregistrerDansLeLocalStorage.length; k++){
+   let structreProduitPanier = []; /* variable vide au départ mais se remplit au fur et mesure que le client choisse un article*/
+   
+    for(let k = 0; k < produitEnregistrerDansLeLocalStorage.length; k++){
         // Structure HTLM de la présentataion des produits dans le panier 
         structreProduitPanier += `
             <div class="container-recapitulalitf">
@@ -41,17 +41,20 @@ else{
             </div>
         `;
 
+        
+        
     }
 
     // Condition d'affichage des articles du localStorage dans le panier
-    if(k === produitEnregistrerDansLeLocalStorage.length ){
-        //Code à injecter dans le HTML
-        conteneurArticleDansLePanier.innerHTML = structreProduitPanier;
-    }
-    else{
-        // Message à envoyer si les articles ne s'affichent pas ou bien si la condition précédente ne marche pas
-        alert("Une erreur s'est produite lors de l'enregistrement de vos produits. Veuillez reprendre SVP!")
-    }
+        if(k === produitEnregistrerDansLeLocalStorage.length ){
+            //Code à injecter dans le HTML
+            conteneurArticleDansLePanier.innerHTML = structreProduitPanier;
+        }else{
+            // Message à envoyer si les articles ne s'affichent pas ou bien si la condition précédente ne marche pas
+            alert("Une erreur s'est produite lors de l'enregistrement de vos produits. Veuillez reprendre SVP!")
+        }
+    
+    
 }
 /*|||||||| Fin----AFFICHAGE DYNAMIQUE DES ARTCILES SELECTIONNES DANS LE PANIER  |||||||||*/
 
@@ -64,7 +67,7 @@ else{
 
 let iconeSupprimer = document.querySelectorAll("icone-supprimer"); /*Ciblage de l'icône de suppression*/
 
-for(n = 0; n < iconeSupprimer.length; n++){
+for(let n = 0; n < iconeSupprimer.length; n++){
     IconeSupprimer[n].addEventlistener("click", (event) =>{
         event.preventDefault();
 
@@ -95,7 +98,7 @@ for(n = 0; n < iconeSupprimer.length; n++){
 let prixTotalCalcul = []; /*La variable est vide au départ et se remplit selon les articles choisis*/
 
 // Récupération des prix dans le panier avec une boucle for
-for(m = 0; m < produitEnregistrerDansLeLocalStorage.length; m++ ){
+for(let m = 0; m < produitEnregistrerDansLeLocalStorage.length; m++ ){
     // Récupération du prix de tous les articles dans le panier
     let prixTousLesArticlesDansLePanier =  produitEnregistrerDansLeLocalStorage[m].price;
 
