@@ -1,19 +1,18 @@
 /*|||||||| Début----AFFICHAGE DYNAMIQUE DES ARTCILES SELECTIONNES DANS LE PANIER  |||||||||*/ 
+let articleLocalStrg = JSON.parse(localStorage.getItem("produit")); /*La méthode JSON.parse sert à faire passer les données du local storage du JSON en objet JavaScript*/
+console.log(articleLocalStrg);
+const templateHtmlPanier = document.getElementById("container-article-panier"); /* conteneur où seront injectés les produits envoyés dans le panier */
 
-let produitEnregistrerDansLeLocalStorage = JSON.parse(localStorage.getItem("produit")); /*La méthode JSON.parse sert à convertir les données du local storage qui sont au format JSON en objet JavaScript*/
-console.log(produitEnregistrerDansLeLocalStorage);
-const conteneurArticleDansLePanier = document.getElementById("container-article-panier"); /* conteneur où seront injectés les produits envoyés dans le panier */
 
 // --------Message à afficher selon l'état du panier
-
-if(produitEnregistrerDansLeLocalStorage === null || produitEnregistrerDansLeLocalStorage == 0){
+if(articleLocalStrg === null || articleLocalStrg == 0){
     // Message à afficher si le panier est vide
     const messagePanierVide = `
     <div class="text-center text-center-modif-1"> 
         <div>Votre panier est vide pour l'instant</div>
     </div>
     `;
-    conteneurArticleDansLePanier.innerHTML = messagePanierVide 
+    templateHtmlPanier.innerHTML = messagePanierVide 
 }
     
 else{
@@ -23,39 +22,30 @@ else{
         <div>Votre panier contient les articles suivants : </div>
     </div>
     `;
-    conteneurArticleDansLePanier.innerHTML = messagePanierAvecProduit 
+    templateHtmlPanier.innerHTML = messagePanierAvecProduit 
 
 
     // ---------Boucle FOR sert afficher les articles selon le nombre de choix du client 
 
-   let structreProduitPanier = []; /* variable vide au départ mais se remplit au fur et mesure que le client choisse un article*/
+   let htmlArticlePanier = []; /* variable vide au départ mais se remplit au fur et mesure que le client choisse un article*/
    
-    for(let k = 0; k < produitEnregistrerDansLeLocalStorage.length; k++){
+    for(let k = 0; k < articleLocalStrg.length; k++){
         // Structure HTLM de la présentataion des produits dans le panier 
-        structreProduitPanier += `
+        htmlArticlePanier += `
             <div class="container-recapitulalitf">
-                <div class="font-weight-bold div-nom-produit">${produitEnregistrerDansLeLocalStorage[k].name}</div>
-                <div class="font-weight-bold"> ${produitEnregistrerDansLeLocalStorage[k].varnish}</div>
-                <div class="font-weight-bold"> ${produitEnregistrerDansLeLocalStorage[k].price /100}.00 € </div>
+                <div class="font-weight-bold div-nom-produit">${articleLocalStrg[k].name}</div>
+                <div class="font-weight-bold"> ${articleLocalStrg[k].varnish}</div>
+                <div class="font-weight-bold"> ${articleLocalStrg[k].price}.00 € </div>
                 <div class="font-weight-bold"><i class=" icone-supprimer far fa-trash-alt"></i></div>
             </div>
         `;
-
-        
-        
     }
-
-    // Condition d'affichage des articles du localStorage dans le panier
-        if(k === produitEnregistrerDansLeLocalStorage.length ){
-            //Code à injecter dans le HTML
-            conteneurArticleDansLePanier.innerHTML = structreProduitPanier;
-        }else{
-            // Message à envoyer si les articles ne s'affichent pas ou bien si la condition précédente ne marche pas
-            alert("Une erreur s'est produite lors de l'enregistrement de vos produits. Veuillez reprendre SVP!")
-        }
+    //Code à injecter dans le HTML
+    templateHtmlPanier.innerHTML = htmlArticlePanier;
     
     
 }
+    
 /*|||||||| Fin----AFFICHAGE DYNAMIQUE DES ARTCILES SELECTIONNES DANS LE PANIER  |||||||||*/
 
 
@@ -65,20 +55,21 @@ else{
 
 /*|||||||||||||||||| Début---SUPPRESSION ARTICLE DANS LE PANIER ||||||||||||||||||||||||*/ 
 
-let iconeSupprimer = document.querySelectorAll("icone-supprimer"); /*Ciblage de l'icône de suppression*/
+let iconeSupprimer = document.querySelectorAll(".icone-supprimer"); /*Ciblage de l'icône de suppression*/
 
 for(let n = 0; n < iconeSupprimer.length; n++){
     IconeSupprimer[n].addEventlistener("click", (event) =>{
         event.preventDefault();
-
+        
         // Sélection de l'ID de l'article à supprimer 
-        let IdArticleSupprimer = produitEnregistrerDansLeLocalStorage[n].id
+        let supprimeArticle = articleLocalStrg[n].id;
+        console.log(supprimeArticle);
         
         // Supression de l'élément ciblé sans supprimer le reste des éléments du panier 
-        produitEnregistrerDansLeLocalStorage = produitEnregistrerDansLeLocalStorage.filter( el => el.id !== IdArticleSupprimer) 
-
+        articleLocalStrg = articleLocalStrg.filter(el => el._id !== supprimeArticle); 
+       
         //Envoi de la variable dans le local storage
-        localStorage.setItem("produit", JSON.stringify(produitEnregistrerDansLeLocalStorage)); /*Création de la clé "produit" dans le local storage*/
+        localStorage.setItem("produit", JSON.stringify(articleLocalStrg)); /*Création de la clé "produit" dans le local storage*/
         
         // Avertissment pour la suppression d'un article du panier
         alert("Cet article a été supprimé du panier");
@@ -98,9 +89,9 @@ for(let n = 0; n < iconeSupprimer.length; n++){
 let prixTotalCalcul = []; /*La variable est vide au départ et se remplit selon les articles choisis*/
 
 // Récupération des prix dans le panier avec une boucle for
-for(let m = 0; m < produitEnregistrerDansLeLocalStorage.length; m++ ){
+for(let m = 0; m < articleLocalStrg.length; m++ ){
     // Récupération du prix de tous les articles dans le panier
-    let prixTousLesArticlesDansLePanier =  produitEnregistrerDansLeLocalStorage[m].price;
+    let prixTousLesArticlesDansLePanier =  articleLocalStrg[m].price;
 
     //Envoi des prix récupérés dans le tableau
     prixTotalCalcul.push(prixTousLesArticlesDansLePanier)
@@ -119,7 +110,7 @@ const prixTotalHtml = `
 `;
 
 // Injection du prix total dans la page HTML du panier 
-conteneurArticleDansLePanier.insertAdjacentHTML("befordend", prixTotalHtml);
+templateHtmlPanier.insertAdjacentHTML("beforeEnd", prixTotalHtml);
 
 /*|||||||||||||||||| FIN---CALCUL DU MONTANT TOTAL DE LA COMMANDE |||||||||||||||||||||||||||||||||*/
 
@@ -143,8 +134,8 @@ const formulaireHtml = () => {
 
                 <div class="form-row">
                     <div class="col-md-6">
-                        <label for="prenom">Pénom</label> <span> id="prenomManquant" class="texte-danger"</span>
-                        <input id="prenom" class="form-control" type="text" name="prenom" placeholder="Paul" required>
+                        <label for="prenom">Pénom</label> 
+                        <input id="prenom prenomManquant" class="form-control texte-danger" type="text" name="prenom" placeholder="Paul" required>
                     </div>
                     
                     <div class="col-md-6">
@@ -349,7 +340,7 @@ btnEvoyerLeFormulaire.AddEventListener("click", (e)=>{
         
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
         const ValFormulaireEtAticleSelectionner = {
-            produitEnregistrerDansLeLocalStorage,
+            articleLocalStrg,
             formulaireValeur,prixTotalCalcul
         };
 
