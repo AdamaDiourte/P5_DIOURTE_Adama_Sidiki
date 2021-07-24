@@ -431,7 +431,16 @@ li{
     
 }
 
+.div-form{
+    width: 90%;
+    margin: auto;
+}
 
+.div-btn-commande{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* ----------------------PAGE CONFIRMATION---------------------------- */
 
 .div-confirmation{

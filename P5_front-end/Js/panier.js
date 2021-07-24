@@ -22,7 +22,8 @@ else{
         <div>Votre panier contient les articles suivants : </div>
     </div>
     `;
-    templateHtmlPanier.innerHTML = messagePanierAvecProduit 
+    
+    templateHtmlPanier.innerHTML = messagePanierAvecProduit; 
 
 
     // ---------Boucle FOR sert afficher les articles selon le nombre de choix du client 
@@ -36,47 +37,40 @@ else{
                 <div class="font-weight-bold div-nom-produit">${articleLocalStrg[k].name}</div>
                 <div class="font-weight-bold"> ${articleLocalStrg[k].varnish}</div>
                 <div class="font-weight-bold"> ${articleLocalStrg[k].price}.00 € </div>
-                <div class="font-weight-bold"><i class=" icone-supprimer far fa-trash-alt"></i></div>
+                <div class="font-weight-bold" onclick="btnSupprim ()"><i class=" icone-supprimer far fa-trash-alt"></i></div>
             </div>
         `;
     }
     //Code à injecter dans le HTML
-    templateHtmlPanier.innerHTML = htmlArticlePanier;
-    
-    
+    templateHtmlPanier.insertAdjacentHTML("beforeEnd", htmlArticlePanier ); 
 }
     
 /*|||||||| Fin----AFFICHAGE DYNAMIQUE DES ARTCILES SELECTIONNES DANS LE PANIER  |||||||||*/
 
 
 
-
-
-
 /*|||||||||||||||||| Début---SUPPRESSION ARTICLE DANS LE PANIER ||||||||||||||||||||||||*/ 
 
-let iconeSupprimer = document.querySelectorAll(".icone-supprimer"); /*Ciblage de l'icône de suppression*/
-
-for(let n = 0; n < iconeSupprimer.length; n++){
-    IconeSupprimer[n].addEventlistener("click", (event) =>{
-        event.preventDefault();
-        
+function btnSupprim (){
+    let iconeSupprimer = document.querySelectorAll(".icone-supprimer"); /*Ciblage de l'icône de suppression*/
+    
+    for(let n = 0; n < iconeSupprimer.length; n++){
+    
         // Sélection de l'ID de l'article à supprimer 
-        let supprimeArticle = articleLocalStrg[n].id;
+        let supprimeArticle = articleLocalStrg[n].varnish;
         console.log(supprimeArticle);
         
         // Supression de l'élément ciblé sans supprimer le reste des éléments du panier 
-        articleLocalStrg = articleLocalStrg.filter(el => el._id !== supprimeArticle); 
+        articleLocalStrg = articleLocalStrg.filter(el => el.varnish !== supprimeArticle); 
        
         //Envoi de la variable dans le local storage
         localStorage.setItem("produit", JSON.stringify(articleLocalStrg)); /*Création de la clé "produit" dans le local storage*/
         
         // Avertissment pour la suppression d'un article du panier
-        alert("Cet article a été supprimé du panier");
+        alert("Cliquez sur OK pour supprimer cet article du panier");
         window.location.href = "panier.html";
-    })
+    };
 }
-
 /*|||||||||||||||||| Fin---SUPPRESSION ARTICLE DANS LE PANIER ||||||||||||||||||||||||*/
 
 
@@ -86,20 +80,20 @@ for(let n = 0; n < iconeSupprimer.length; n++){
 /*|||||||||||||||||| Début---CALCUL DU MONTANT TOTAL DE LA COMMANDE ||||||||||||||||||||*/
 
 // Déclaration de la variable qui contient tout le prix de l'ensemble des articles dans le panier
-let prixTotalCalcul = []; /*La variable est vide au départ et se remplit selon les articles choisis*/
+let tableauDesPrix = []; /*La variable est vide au départ et se remplit selon les articles choisis*/
 
 // Récupération des prix dans le panier avec une boucle for
 for(let m = 0; m < articleLocalStrg.length; m++ ){
     // Récupération du prix de tous les articles dans le panier
-    let prixTousLesArticlesDansLePanier =  articleLocalStrg[m].price;
+    let prixDesCommandes =  articleLocalStrg[m].price;
 
     //Envoi des prix récupérés dans le tableau
-    prixTotalCalcul.push(prixTousLesArticlesDansLePanier)
+    tableauDesPrix.push(prixDesCommandes)
 }
 
 //Addition des prix avec la méthode .reduce
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
-const prixTotal = prixTotalCalcul.reduce(reducer, 0);
+const prixTotal = tableauDesPrix.reduce(reducer, 0);
 
 // Le code HTML du prix total à afficher 
 const prixTotalHtml = `
@@ -109,8 +103,7 @@ const prixTotalHtml = `
     </div>
 `;
 
-// Injection du prix total dans la page HTML du panier 
-templateHtmlPanier.insertAdjacentHTML("beforeEnd", prixTotalHtml);
+
 
 /*|||||||||||||||||| FIN---CALCUL DU MONTANT TOTAL DE LA COMMANDE |||||||||||||||||||||||||||||||||*/
 
@@ -130,47 +123,43 @@ const formulaireHtml = () => {
 
             <h3 class="text-center">Remplissez le formulaire pour valider la commande</h3>
         
-            <form action="#">
+            <form action="#" method="POST">
 
-                <div class="form-row">
+                <div class="form-row div-form">
                     <div class="col-md-6">
-                        <label for="prenom">Pénom</label> 
+                        <label for="prenom">Pénom</label>
                         <input id="prenom prenomManquant" class="form-control texte-danger" type="text" name="prenom" placeholder="Paul" required>
                     </div>
                     
                     <div class="col-md-6">
-                        <label for="nom">Nom</label> <span> id="nomManquant" class="texte-danger"</span>
-                        <input id="nom" class="form-control" type="text" name="nom" placeholder="DUPONT" required>
-                    </div>
-
-
-                    <div class="col-md-6">
-                        <label for="adress">Adresse</label> <span> id="adresseManquant" class="texte-danger"</span>
-                        <textarea name="adresse" class="form-control" id="adresse" cols="30" rows="1" placeholder="44 Rue de France" required></textarea>
-                    </div>
-
-
-                    <div class="col-md-6">
-                        <label for="ville">Ville</label> <span> id="nomVilleManquant" class="texte-danger"</span>
-                        <input id="ville" class="form-control" type="text" name="ville" placeholder="Lille" required>
-                    </div>
-
-
-                    <div class="col-md-6">
-                        <label for="codepostal">Code postal</label> <span> id="codepostalManquant" class="texte-danger"</span>
-                        <input id="codepostal" class="form-control" type="number" name="codepostal" placeholder="59000" required>
+                        <label for="nom">Nom</label>
+                        <input id="nom nomManquant" class="form-control texte-danger" type="text" name="nom" placeholder="DUPONT" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="email">Email</label> <span> id="emailManquant" class="texte-danger"</span>
-                        <input id="email" class="form-control" type="email" name="email" placeholder="dupont@gmail.com" required>
+                        <label for="adress">Adresse</label>
+                        <textarea name="adresse" class="form-control texte-danger" id="adresse adresseManquant" cols="30" rows="1" placeholder="44 Rue de France" required></textarea>
                     </div>
 
-                
+                    <div class="col-md-6">
+                        <label for="ville">Ville</label>
+                        <input id="ville nomVilleManquant" class="form-control texte-danger" type="text" name="ville" placeholder="Lille" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="codepostal">Code postal</label>
+                        <input id="codepostal codepostalManquant" class="form-control texte-danger" type="number" name="codepostal" placeholder="59000" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="email">Email</label>
+                        <input id="email emailManquant" class="form-control texte-danger" type="email" name="email" placeholder="dupont@gmail.com" required>
+                    </div>
+
                 </div>
 
                 <div class="btn div-btn-commande">
-                    <div><button id="envoi-formulaire" class="btn btn-success" type="submit" name="envoi-formulaire">Commander</button></div>
+                    <div><button onclick="envoiFormulaiure ()" type= "button" id="envoi-formulaire" class="btn btn-success" type="submit" name="envoi-formulaire">Commander</button></div>
                 </div>
 
             </form>
@@ -184,23 +173,30 @@ const formulaireHtml = () => {
 } 
 
 // Appel de la fonction formulaireHtml() pour afficher le formulaire dans le Html
-formulaireHtml();
+if(articleLocalStrg === null || articleLocalStrg == 0){
+    console.log("Vous avez suppimez tous les articles du panier")
+}
+else{
+    // Injection du prix total dans la page HTML du panier 
+    templateHtmlPanier.insertAdjacentHTML("beforeEnd", prixTotalHtml);
+    // Affichage du formulaire de commande
+    formulaireHtml();
+}
 
 // Ciblage du bouton d'envoi du formuaire 
-const btnEvoyerLeFormulaire = document.querySelector("#envoi-formulaire");
+// const btnEvoyerLeFormulaire = document.querySelector("#envoi-formulaire");
 
 // -----------AddEventListener du formulaire ou gestion des effets du formulaire-------------
-btnEvoyerLeFormulaire.AddEventListener("click", (e)=>{
-    e.preventDefault();
+function envoiFormulaiure () {
 
     // Récupération des valeurs du formaulaire pour les mettre dans le local storage
-    const formulaireValeur ={
-        prenom :document.getElementById("prenom").value,
-        nom : document.getElementById("nom").value,
-        adresse:document.getElementById("adresse").value,
-        ville :document.getElementById("ville").value,
-        codepostal :document.getElementById("codepostal").value,
-        email :document.getElementById("email").value,
+    const formulaireValeur = {
+        prenom: document.getElementById("prenom").value,
+        nom: document.getElementById("nom").value,
+        adresse: document.getElementById("adresse").value,
+        ville: document.getElementById("ville").value,
+        codepostal: document.getElementById("codepostal").value,
+        email: document.getElementById("email").value,
     }
 
     /*--------------Début-----Contrôle de la validation des champs du formulaire---------*/ 
@@ -336,12 +332,12 @@ btnEvoyerLeFormulaire.AddEventListener("click", (e)=>{
         localStorage.setItem("formulaireValeur", JSON.stringify(formulaireValeur));
 
         // Mettre le prix total de la commande dans le local storage
-        localStorage.setItem("prixTotal", JSON.stringify(prixTotalCalcul));
+        localStorage.setItem("prixTotal", JSON.stringify(tableauDesPrix));
         
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
         const ValFormulaireEtAticleSelectionner = {
             articleLocalStrg,
-            formulaireValeur,prixTotalCalcul
+            formulaireValeur,tableauDesPrix
         };
 
         envoiVersServer(ValFormulaireEtAticleSelectionner);
@@ -352,7 +348,173 @@ btnEvoyerLeFormulaire.AddEventListener("click", (e)=>{
     }
 
     
-});
+};
+
+
+
+// btnEvoyerLeFormulaire.AddEventListener("click", (e)=>{
+//     e.preventDefault();
+
+//     // Récupération des valeurs du formaulaire pour les mettre dans le local storage
+//     const formulaireValeur ={
+//         prenom :document.getElementById("prenom").value,
+//         nom : document.getElementById("nom").value,
+//         adresse:document.getElementById("adresse").value,
+//         ville :document.getElementById("ville").value,
+//         codepostal :document.getElementById("codepostal").value,
+//         email :document.getElementById("email").value,
+//     }
+
+//     /*--------------Début-----Contrôle de la validation des champs du formulaire---------*/ 
+//     const textAlert = (value) =>{
+//         return value + ": Chiffres et symboles non autorisés.\n Caractères min : 2 et max : 20"
+//     }
+    
+//     // variable globale de la méthode regex du "prénom, nom et ville"
+//     const regexPrenomNomVille = (value) =>{
+//         return /^[A-Za-z]{2,20}$/.test(leprenom)
+//     }
+
+//     const regexlecodepostal = (value) =>{
+//         return /^[0-9]{5}$/.test()
+//     }
+
+//     // Variable expression régulière  mail
+//     const regexEmail = (value) =>{
+//         return /^[\w -\.] + @ ([\ w -] + \.) + [\ w -] {2,4}$/.test(value)
+//     }
+
+//     // Variable expression régulière adresse
+//     const regexAdresse = (value) =>{
+//         return /^^[A-Za-z0-9\s] {5, 50}$/.test(value)
+//     }
+
+//     // Contrôle la validité du prénom
+//     function prenomControle (){
+//         const leprenom = formulaireValeur.prenom;
+        
+//         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
+//         if(regexPrenomNomVille(leprenom)){
+//             document.getElementById("prenomManquant").textContent = "";
+//             return true;
+//         }
+//         else{
+//             document.getElementById("prenomManquant").textContent ="Veuillez sasir un prénom valide"
+//             alert(textAlert("Prénom"))
+//             return false;
+//         };
+
+//     }
+    
+//     // Contrôle la validité du nom
+//     function nomControle (){
+//         const lenom = formulaireValeur.nom;
+//         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
+//         if(regexPrenomNomVille(lenom)){
+//              document.getElementById("nomManquant").textContent =""
+//             return true;
+//         }
+//         else{
+//             document.getElementById("nomManquant").textContent ="Veuillez sasir un Nom valide"
+//             alert(textAlert("Nom"))
+//             return false;
+//         };
+
+//     }
+
+    
+//     // Contrôle la validité de l'adresse
+//     function adresseControle (){
+//         const ladresse = formulaireValeur.adresse;
+//         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
+//         if(regexEmail(ladresse)){
+//             document.getElementById("adresseManquant").textContent =""
+//             return true;
+//         }
+//         else{
+//             document.getElementById("adresseManquant").textContent ="Veuillez sasir une adresse valide"
+//             alert(textAlert("L'adresse ne doit pas contenir de signes de ponctuation ou de caractères spéciaux"))
+//             return false;
+//         };
+
+//     }
+
+//     // Contrôle la validité de la ville
+//     function villeControle (){
+//         const laville = formulaireValeur.ville;
+//         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
+//         if(regexPrenomNomVille(laville)){
+//             document.getElementById("nomVilleManquant").textContent =""
+//             return true;
+//         }
+//         else{
+//             document.getElementById("nomVilleManquant").textContent ="Veuillez sasir le nom de votre ville"
+//             alert(textAlert("Ville"))
+//             return false;
+//         };
+
+//     }
+
+//     // Contrôle la validité du code postal
+//     function lecodepostalControle (){
+//         const lecodepostal = formulaireValeur.codepostal;
+//         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
+//         if(regexlecodepostal(lecodepostal)){
+//             document.getElementById("codepostalManquant").textContent =""
+//             return true;
+//         }
+//         else{
+//             document.getElementById("codepostalManquant").textContent ="Veuillez sasir un numéro valide"
+//             alert("Le code postal doit être composé de 5 chiffres");
+//             return false;
+//         };
+
+//     }
+
+//     // Contrôle la validité de email
+//     function emailControle (){
+//           const lemail = formulaireValeur.email;
+//         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
+//         if(regexEmail(lemail)){
+//             document.getElementById("emailManquant").textContent =""
+//             return true;
+//         }
+//         else{
+//             document.getElementById("emailManquant").textContent ="Veuillez sasir un email valide"
+//             alert(textAlert("L'eamil saisi n'est pas valide"))
+//             return false;
+//         };
+
+//     }
+
+
+
+//     /*-----------------Fin----------Contrôle de la validation des champs du formulaire---------*/ 
+    
+
+//     // Condition pour envoyer ou non le formulaire selon le remplissage des champs 
+//     if(prenomControle () && nomControle() && villeControle() && lecodepostalControle () && emailControle () && adresseControle () && villeControle () ){
+//         // Mettre l'objet "formulaireValeur" dans le local storage
+//         localStorage.setItem("formulaireValeur", JSON.stringify(formulaireValeur));
+
+//         // Mettre le prix total de la commande dans le local storage
+//         localStorage.setItem("prixTotal", JSON.stringify(tableauDesPrix));
+        
+//         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
+//         const ValFormulaireEtAticleSelectionner = {
+//             articleLocalStrg,
+//             formulaireValeur,tableauDesPrix
+//         };
+
+//         envoiVersServer(ValFormulaireEtAticleSelectionner);
+
+//     }
+//     else{
+//         alert("Les champs du formulaire ne sont pas bien remplis. Veuillez les remplir SVP!")
+//     }
+
+    
+// });
 
 
 
