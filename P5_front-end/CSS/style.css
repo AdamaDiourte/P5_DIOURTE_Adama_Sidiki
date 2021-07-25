@@ -48,6 +48,14 @@ header{
     font-size: 1.2rem;
 }
 
+.nbreArticlePanier{
+    font-size:.7rem;
+    color: rgb(240, 227, 230);
+    border: 1px solid cornsilk;
+    border-radius: 100%;
+    padding: 1px 3px;
+    margin-left: 3px;
+}
 
 .btn-recherche{
     width: 40px;
@@ -479,6 +487,15 @@ li{
         background-color: coral;
         border-radius: 50px;
     } */
+
+    .nbreArticlePanier{
+        font-size:1rem;
+        color: rgb(240, 227, 230);
+        border: 1px solid cornsilk;
+        border-radius: 100%;
+        padding: 2px 5px;
+        margin-left: 3px;
+    }
 
     .card-modif-1{
         max-width: 400px;
