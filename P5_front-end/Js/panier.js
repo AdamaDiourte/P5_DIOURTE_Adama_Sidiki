@@ -118,12 +118,12 @@ const formulaireHtml = () => {
 
             <h3 class="text-center">Remplissez le formulaire pour valider la commande</h3>
         
-            <form action="#" method="POST">
+            <form>
 
                 <div class="form-row div-form">
                     <div class="col-md-6">
                         <label for="prenom">Pénom</label>
-                        <input id="prenom prenomManquant" class="form-control texte-danger" type="text" name="prenom" placeholder="Paul" required>
+                        <input id="prenom" class="form-control texte-danger" type="text" name="prenom" placeholder="Paul" required>
                     </div>
                     
                     <div class="col-md-6">
@@ -154,7 +154,7 @@ const formulaireHtml = () => {
                 </div>
 
                 <div class="btn div-btn-commande">
-                    <div><button onclick="envoiFormulaire ()" type= "submit" id="envoi-formulaire" class="btn btn-success" type="submit" name="envoi-formulaire">Commander</button></div>
+                    <div><button onclick="envoiFormulaire()" id="envoi-formulaire" class="btn btn-success" type="button" name="envoi-formulaire">Commander</button></div>
                 </div>
 
             </form>
@@ -166,9 +166,12 @@ const formulaireHtml = () => {
     formulaireCommande.insertAdjacentHTML("afterend", structureFormulaire);
 } 
 
+
+
 // Condition d'affichage du formulaire
 if(articleLocalStrg === null || articleLocalStrg == 0){
     console.log("Vous avez suppimez tous les articles du panier");
+    
 }
 else{
     // Injection du prix total dans la page HTML du panier 
@@ -181,6 +184,7 @@ else{
 function envoiFormulaire(){
    
     // Récupération des valeurs du formaulaire pour les mettre dans le local storage
+    
     const formulaireValeur = {
         prenom: document.getElementById("prenom").value,
         nom: document.getElementById("nom").value,
@@ -190,6 +194,7 @@ function envoiFormulaire(){
         email: document.getElementById("email").value,
     }
     
+    
     /*-------Début-----Contrôle de la validation des champs du formulaire---------*/ 
     const textAlert = (value) =>{
         return value + ": Chiffres et symboles non autorisés.\n Caractères min : 2 et max : 20"
@@ -197,7 +202,7 @@ function envoiFormulaire(){
     
     // variable globale de la méthode regex du "prénom, nom et ville"
     const regexPrenomNomVille = (value) =>{
-        return /^[A-Za-z]{2,20}$/.test(leprenom)
+        return /^[A-Za-z]{2,20}$/.test(prenom);
     }
 
     const regexlecodepostal = (value) =>{
@@ -215,16 +220,16 @@ function envoiFormulaire(){
     }
 
     // Contrôle la validité du prénom
-    function prenomControle (){
+    function prenomControle(){
         const leprenom = formulaireValeur.prenom;
         
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(leprenom)){
-            document.getElementById("prenomManquant").textContent = "";
+            document.getElementById("prenom").textContent = "";
             return true;
         }
         else{
-            document.getElementById("prenomManquant").textContent ="Veuillez saisir un prénom valide"
+            document.getElementById("prenom").textContent ="Veuillez saisir un prénom valide"
             alert(textAlert("Prénom"))
             return false;
         };
@@ -249,7 +254,7 @@ function envoiFormulaire(){
 
     
     // Contrôle la validité de l'adresse
-    function adresseControle (){
+    function adresseControle(){
         const ladresse = formulaireValeur.adresse;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexEmail(ladresse)){
@@ -265,7 +270,7 @@ function envoiFormulaire(){
     }
 
     // Contrôle la validité de la ville
-    function villeControle (){
+    function villeControle(){
         const laville = formulaireValeur.ville;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(laville)){
@@ -315,7 +320,7 @@ function envoiFormulaire(){
     
 
     // Condition pour envoyer ou non le formulaire selon le remplissage des champs 
-    if(prenomControle () && nomControle() && villeControle() && lecodepostalControle () && emailControle () && adresseControle () && villeControle () ){
+    if(prenomControle() && nomControle() && villeControle() && lecodepostalControle() && emailControle() && adresseControle() && villeControle() ){
         // Mettre l'objet "formulaireValeur" dans le local storage
         localStorage.setItem("formulaireValeur", JSON.stringify(formulaireValeur));
 
@@ -362,7 +367,7 @@ function envoiVersServer (valeurFormEtArticle){
                 localStorage.setItem("responseIdServer", contenu._Id) 
 
                 // Aller à la page de confirmation de la commande
-                window.location.href ="/P5_front-end/html/confirmation.html"
+                // window.location.href ="/P5_front-end/html/confirmation.html"
 
             }
             else{
