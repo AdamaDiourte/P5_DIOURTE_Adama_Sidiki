@@ -118,7 +118,7 @@ const formulaireHtml = () => {
 
             <h3 class="text-center">Remplissez le formulaire pour valider la commande</h3>
         
-            <form>
+            <form onsubmit="envoiFormulaire(this); return false" onchange="synchroLocalStrgDataForm()">
 
                 <div class="form-row div-form">
                     <div class="col-md-6">
@@ -128,33 +128,33 @@ const formulaireHtml = () => {
                     
                     <div class="col-md-6">
                         <label for="nom">Nom</label>
-                        <input id="nom nomManquant" class="form-control texte-danger" type="text" name="nom" placeholder="DUPONT" required>
+                        <input id="nom" class="form-control texte-danger" type="text" name="nom" placeholder="DUPONT" required>
                     </div>
 
                     <div class="col-md-6">
                         <label for="adress">Adresse</label>
-                        <textarea name="adresse" class="form-control texte-danger" id="adresse adresseManquant" cols="30" rows="1" placeholder="44 Rue de France" required></textarea>
+                        <textarea name="adresse" class="form-control texte-danger" id="adresse" cols="30" rows="1" placeholder="44 Rue de France" required></textarea>
                     </div>
 
                     <div class="col-md-6">
                         <label for="ville">Ville</label>
-                        <input id="ville nomVilleManquant" class="form-control texte-danger" type="text" name="ville" placeholder="Lille" required>
+                        <input id="ville" class="form-control texte-danger" type="text" name="ville" placeholder="Lille" required>
                     </div>
 
                     <div class="col-md-6">
                         <label for="codepostal">Code postal</label>
-                        <input id="codepostal codepostalManquant" class="form-control texte-danger" type="number" name="codepostal" placeholder="59000" required>
+                        <input id="codepostal" class="form-control texte-danger" type="number" name="codepostal" placeholder="59000" required>
                     </div>
 
                     <div class="col-md-6">
                         <label for="email">Email</label>
-                        <input id="email emailManquant" class="form-control texte-danger" type="email" name="email" placeholder="dupont@gmail.com" required>
+                        <input id="email" class="form-control texte-danger" type="email" name="email" placeholder="dupont@gmail.com" required>
                     </div>
 
                 </div>
 
                 <div class="btn div-btn-commande">
-                    <div><button onclick="envoiFormulaire()" id="envoi-formulaire" class="btn btn-success" type="button" name="envoi-formulaire">Commander</button></div>
+                    <div><button id="envoi-formulaire" class="btn btn-success" type="submit" name="envoi-formulaire">Commander</button></div>
                 </div>
 
             </form>
@@ -180,12 +180,10 @@ else{
     formulaireHtml();
 }
 
-// Fonction de gestion du formulaire
-function envoiFormulaire(){
-   
+function getFormValeur(){
     // Récupération des valeurs du formaulaire pour les mettre dans le local storage
     
-    const formulaireValeur = {
+    return {
         prenom: document.getElementById("prenom").value,
         nom: document.getElementById("nom").value,
         adresse: document.getElementById("adresse").value,
@@ -193,7 +191,18 @@ function envoiFormulaire(){
         codepostal: document.getElementById("codepostal").value,
         email: document.getElementById("email").value,
     }
+}
+
+// Fonction de gestion du formulaire
+function synchroLocalStrgDataForm(form){
+    const formulaireValeur = getFormValeur();
+    window.localStorage.setItem("formulaireValeur", JSON.stringify(formulaireValeur));
+}
+
+function envoiFormulaire(form){
+   
     
+    const formulaireValeur = getFormValeur();
     
     /*-------Début-----Contrôle de la validation des champs du formulaire---------*/ 
     const textAlert = (value) =>{
@@ -202,21 +211,21 @@ function envoiFormulaire(){
     
     // variable globale de la méthode regex du "prénom, nom et ville"
     const regexPrenomNomVille = (value) =>{
-        return /^[A-Za-z]{2,20}$/.test(prenom);
+        return /^[A-Za-z\s-]{2,20}$/.test(value);
     }
 
     const regexlecodepostal = (value) =>{
-        return /^[0-9]{5}$/.test()
+        return /^[0-9]{5}$/.test(value)
     }
 
     // Variable expression régulière  mail
     const regexEmail = (value) =>{
-        return /^[\w -\.] + @ ([\ w -] + \.) + [\ w -] {2,4}$/.test(value)
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)
     }
 
     // Variable expression régulière adresse
     const regexAdresse = (value) =>{
-        return /^^[A-Za-z0-9\s] {5, 50}$/.test(value)
+        return /^[A-zÀ-ú\s\d]{5,60}$/.test(value)
     }
 
     // Contrôle la validité du prénom
@@ -241,11 +250,11 @@ function envoiFormulaire(){
         const lenom = formulaireValeur.nom;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(lenom)){
-             document.getElementById("nomManquant").textContent =""
+             document.getElementById("nom").textContent =""
             return true;
         }
         else{
-            document.getElementById("nomManquant").textContent ="Veuillez sasir un Nom valide"
+            document.getElementById("nom").textContent ="Veuillez sasir un Nom valide"
             alert(textAlert("Nom"))
             return false;
         };
@@ -257,13 +266,13 @@ function envoiFormulaire(){
     function adresseControle(){
         const ladresse = formulaireValeur.adresse;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
-        if(regexEmail(ladresse)){
-            document.getElementById("adresseManquant").textContent =""
+        if(regexAdresse(ladresse)){
+            document.getElementById("adresse").textContent =""
             return true;
         }
         else{
-            document.getElementById("adresseManquant").textContent ="Veuillez sasir une adresse valide"
-            alert(textAlert("L'adresse ne doit pas contenir de signes de ponctuation ou de caractères spéciaux"))
+            document.getElementById("adresse").textContent ="Veuillez sasir une adresse valide"
+            alert("L'adresse ne doit pas contenir de signes de ponctuation ou de caractères spéciaux")
             return false;
         };
 
@@ -274,11 +283,11 @@ function envoiFormulaire(){
         const laville = formulaireValeur.ville;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(laville)){
-            document.getElementById("nomVilleManquant").textContent =""
+            document.getElementById("ville").textContent =""
             return true;
         }
         else{
-            document.getElementById("nomVilleManquant").textContent ="Veuillez sasir le nom de votre ville"
+            document.getElementById("ville").textContent ="Veuillez sasir le nom de votre ville"
             alert(textAlert("Ville"))
             return false;
         };
@@ -290,11 +299,11 @@ function envoiFormulaire(){
         const lecodepostal = formulaireValeur.codepostal;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexlecodepostal(lecodepostal)){
-            document.getElementById("codepostalManquant").textContent =""
+            document.getElementById("codepostal").textContent =""
             return true;
         }
         else{
-            document.getElementById("codepostalManquant").textContent ="Veuillez sasir un numéro valide"
+            document.getElementById("codepostal").textContent ="Veuillez sasir un numéro valide"
             alert("Le code postal doit être composé de 5 chiffres");
             return false;
         };
@@ -306,11 +315,11 @@ function envoiFormulaire(){
           const lemail = formulaireValeur.email;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexEmail(lemail)){
-            document.getElementById("emailManquant").textContent =""
+            document.getElementById("email").textContent =""
             return true;
         }
         else{
-            document.getElementById("emailManquant").textContent ="Veuillez sasir un email valide"
+            document.getElementById("email").textContent ="Veuillez sasir un email valide"
             alert(textAlert("L'eamil saisi n'est pas valide"))
             return false;
         };
@@ -330,11 +339,10 @@ function envoiFormulaire(){
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
         const valeurFormEtArticle = {
             articleLocalStrg,
-            formulaireValeur,tableauDesPrix
+            formulaireValeur,
+            tableauDesPrix
         };
-
         envoiVersServer(valeurFormEtArticle);
-
     }
     else{
         alert("Les champs du formulaire ne sont pas bien remplis. Veuillez les remplir SVP!")
@@ -344,17 +352,16 @@ function envoiFormulaire(){
 };
 
 // Fonction d'envoi du formulaire vers le server
-function envoiVersServer (valeurFormEtArticle){
+function envoiVersServer(valeurFormEtArticle){
     // Envoi de l'objet "valeurFormEtArticle" vers le server 
 
-    const EnvoiCommand = fetch("http://localhost:3000/api/furniture",{
+    const EnvoiCommand = fetch("http://localhost:3000/api/furnitures",{
         method: "POST",
         body: JSON.stringify(valeurFormEtArticle),
         headers: {
             "content-type" :"application/json",
-        } 
+        }
     });
-
 
     // Pour voir le résulat du server dans la console méthode
     EnvoiCommand.then(async(response) => {
@@ -367,7 +374,7 @@ function envoiVersServer (valeurFormEtArticle){
                 localStorage.setItem("responseIdServer", contenu._Id) 
 
                 // Aller à la page de confirmation de la commande
-                // window.location.href ="/P5_front-end/html/confirmation.html"
+                window.location.href ="confirmation.html"
 
             }
             else{
@@ -385,14 +392,19 @@ function envoiVersServer (valeurFormEtArticle){
 const datalocalStorage = localStorage.getItem("formulaireValeur");
 
 // Convertir la chaine de caractère en objet JSON
-const datalocalStorageObjet = JSON.parse(datalocalStorage);
 
-// Mettre les valeurs du local storage dans le formulaire
-document.getElementById("prenom").value = datalocalStorageObjet.prenom;
-document.getElementById("nom").value = datalocalStorageObjet.nom;
-document.getElementById("adresse").value = datalocalStorageObjet.adresse;
-document.getElementById("ville").value = datalocalStorageObjet.ville;
-document.getElementById("codepostal").value = datalocalStorageObjet.codepostal;
-document.getElementById("email").value = datalocalStorageObjet.email;
+
+if(datalocalStorage != null){
+    const datalocalStorageObjet = JSON.parse(datalocalStorage);
+    // Mettre les valeurs du local storage dans le formulaire
+    document.getElementById("prenom").value = datalocalStorageObjet.prenom;
+    document.getElementById("nom").value = datalocalStorageObjet.nom;
+    document.getElementById("adresse").value = datalocalStorageObjet.adresse;
+    document.getElementById("ville").value = datalocalStorageObjet.ville;
+    document.getElementById("codepostal").value = datalocalStorageObjet.codepostal;
+    document.getElementById("email").value = datalocalStorageObjet.email;
+}
+
+
 
 /*||||||||||||||||||||||||| Fin-------GESTION DU FORMULAIRE |||||||||||||||||||||||||||||||*/ 
