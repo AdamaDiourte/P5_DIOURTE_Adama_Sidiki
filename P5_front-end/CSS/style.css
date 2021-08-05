@@ -59,7 +59,7 @@ header{
 
 .btn-recherche{
     width: 40px;
-    height: 71%;
+    height: 56%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -158,8 +158,8 @@ header{
 }
 .card, .card-modif-1{
     border: 1px solid rgb(243, 118, 46);
-    margin: 1.5rem 0;
     padding: 0.2rem;
+    margin:auto;
     
 }
 
@@ -313,11 +313,12 @@ li{
         font-size: 0.7rem;
     }
 
-
     .produit, .quantite, .sous-total{
         font-size: 0.7rem;
     }
-    
+    .container-recapitulalitf{
+        font-size:0.7rem;
+    }
 }
 
 
@@ -353,6 +354,17 @@ li{
     align-items: center;
 }
 
+ .container-recapitulalitf{
+    background-color:white;
+    padding: 15px 5px;
+    border-radius: 10px;
+    border: 1px solid red;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+}
+.text-prixTotal{    
+    font-size: 1rem;
+}
 .div-nom-produit{
     width: 50%;
 }
@@ -371,9 +383,9 @@ li{
 
 
 
-.container-article-panier{
+/* .container-article-panier{
     border: 1px solid coral;
-}
+} */
 
 .produit, .quantite, .supprimer, .sous-total{
     border: 1px solid rgb(125, 143, 245);
@@ -431,7 +443,20 @@ li{
     padding: .2rem;
 }
 .titre-formulaire{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+}
+
+label{
+    margin:0px;
+    font-weight: 400;
+}
+.form-control{
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.div-form{
+    margin: 0 5px;
 }
 
 .footer-panier{
@@ -439,10 +464,6 @@ li{
     
 }
 
-.div-form{
-    width: 90%;
-    margin: auto;
-}
 
 .div-btn-commande{
     display: flex;
@@ -538,15 +559,30 @@ li{
        max-width: 500px;
        margin: auto;
    }
-
-
+   
+   .container-recapitulalitf,
+   .text-prixTotal{
+        font-size: 1.3rem;
+    }
+    
+    .div-form{
+        display: block;
+        width: 80%;
+        margin: auto;
+    }
 }
-
+/* ----------------------------DESKTOP------------------------- */
 @media screen and (min-width: 1000px){
-    .main-container{
-        max-width: 75%;
+    .main-container,.div-form {
+        max-width: 900px;
         min-width: 280px;
         margin: auto;
-    }   
-
+    } 
+    
+    .div-form {
+        max-width: 600px;
+        min-width: 280px;
+        margin: auto;
+    } 
+ 
 }

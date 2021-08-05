@@ -42,7 +42,7 @@ else{
                 <div class="font-weight-bold div-nom-produit">${articleLocalStrg[k].name}</div>
                 <div class="font-weight-bold"> ${articleLocalStrg[k].varnish}</div>
                 <div class="font-weight-bold"> ${articleLocalStrg[k].price}.00 € </div>
-                <div class="font-weight-bold" onclick="btnSupprim ()"><i class=" icone-supprimer far fa-trash-alt"></i></div>
+                <div class="font-weight-bold btn-supprim" onclick="btnSupprim ()"><i class=" icone-supprimer far fa-trash-alt"></i></div>
             </div>
         `;
     }
@@ -61,7 +61,6 @@ function btnSupprim (){
     
         // Sélection de l'ID de l'article à supprimer 
         let supprimeArticle = articleLocalStrg[n].varnish;
-        console.log(supprimeArticle);
         
         // Supression de l'élément ciblé sans supprimer le reste des éléments du panier 
         articleLocalStrg = articleLocalStrg.filter(el => el.varnish !== supprimeArticle); 
@@ -99,7 +98,7 @@ const prixTotal = tableauDesPrix.reduce(reducer, 0);
 const prixTotalHtml = `
     
     <div class="container-montant-total">
-        <div class="font-weight-bold">Prix total = ${prixTotal}.00 €</div>
+        <div class="font-weight-bold text-danger text-prixTotal">Prix total = ${prixTotal}.00 €</div>
     </div>
 `;
 /*|||||||||||||||||| FIN---CALCUL DU MONTANT TOTAL DE LA COMMANDE |||||||||||||||||||||||||||||||||*/
@@ -114,39 +113,39 @@ const formulaireHtml = () => {
 
     // Structure HTML du formulaire de commande
     const structureFormulaire = `
-        <div class="formulaire-titre">
+        <div class="div-formulaire">
 
-            <h3 class="text-center">Remplissez le formulaire pour valider la commande</h3>
+            <h3 class="text-center titre-formulaire">Remplissez le formulaire pour valider la commande</h3>
         
             <form onsubmit="envoiFormulaire(this); return false" onchange="synchroLocalStrgDataForm()">
-
+                
                 <div class="form-row div-form">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="prenom">Pénom</label>
                         <input id="prenom" class="form-control texte-danger" type="text" name="prenom" placeholder="Paul" required>
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="nom">Nom</label>
                         <input id="nom" class="form-control texte-danger" type="text" name="nom" placeholder="DUPONT" required>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="adress">Adresse</label>
                         <textarea name="adresse" class="form-control texte-danger" id="adresse" cols="30" rows="1" placeholder="44 Rue de France" required></textarea>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="ville">Ville</label>
                         <input id="ville" class="form-control texte-danger" type="text" name="ville" placeholder="Lille" required>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="codepostal">Code postal</label>
                         <input id="codepostal" class="form-control texte-danger" type="number" name="codepostal" placeholder="59000" required>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="email">Email</label>
                         <input id="email" class="form-control texte-danger" type="email" name="email" placeholder="dupont@gmail.com" required>
                     </div>
@@ -154,7 +153,7 @@ const formulaireHtml = () => {
                 </div>
 
                 <div class="btn div-btn-commande">
-                    <div><button id="envoi-formulaire" class="btn btn-success" type="submit" name="envoi-formulaire">Commander</button></div>
+                    <div><button id="envoi-formulaire" class="btn btn-success" type="" name="envoi-formulaire">Commander</button></div>
                 </div>
 
             </form>
@@ -201,8 +200,7 @@ function synchroLocalStrgDataForm(form){
 
 function envoiFormulaire(form){
    
-    
-    const formulaireValeur = getFormValeur();
+   let contact = getFormValeur();
     
     /*-------Début-----Contrôle de la validation des champs du formulaire---------*/ 
     const textAlert = (value) =>{
@@ -230,7 +228,7 @@ function envoiFormulaire(form){
 
     // Contrôle la validité du prénom
     function prenomControle(){
-        const leprenom = formulaireValeur.prenom;
+        const leprenom = contact.prenom;
         
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(leprenom)){
@@ -247,7 +245,7 @@ function envoiFormulaire(form){
     
     // Contrôle la validité du nom
     function nomControle (){
-        const lenom = formulaireValeur.nom;
+        const lenom = contact.nom;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(lenom)){
              document.getElementById("nom").textContent =""
@@ -264,7 +262,7 @@ function envoiFormulaire(form){
     
     // Contrôle la validité de l'adresse
     function adresseControle(){
-        const ladresse = formulaireValeur.adresse;
+        const ladresse = contact.adresse;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexAdresse(ladresse)){
             document.getElementById("adresse").textContent =""
@@ -280,7 +278,7 @@ function envoiFormulaire(form){
 
     // Contrôle la validité de la ville
     function villeControle(){
-        const laville = formulaireValeur.ville;
+        const laville = contact.ville;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(laville)){
             document.getElementById("ville").textContent =""
@@ -296,7 +294,7 @@ function envoiFormulaire(form){
 
     // Contrôle la validité du code postal
     function lecodepostalControle (){
-        const lecodepostal = formulaireValeur.codepostal;
+        const lecodepostal = contact.codepostal;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexlecodepostal(lecodepostal)){
             document.getElementById("codepostal").textContent =""
@@ -312,7 +310,7 @@ function envoiFormulaire(form){
 
     // Contrôle la validité de email
     function emailControle (){
-          const lemail = formulaireValeur.email;
+          const lemail = contact.email;
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexEmail(lemail)){
             document.getElementById("email").textContent =""
@@ -330,17 +328,27 @@ function envoiFormulaire(form){
 
     // Condition pour envoyer ou non le formulaire selon le remplissage des champs 
     if(prenomControle() && nomControle() && villeControle() && lecodepostalControle() && emailControle() && adresseControle() && villeControle() ){
-        // Mettre l'objet "formulaireValeur" dans le local storage
-        localStorage.setItem("formulaireValeur", JSON.stringify(formulaireValeur));
+        // Mettre l'objet "contact" dans le local storage
+        localStorage.setItem("formulaireValeur", JSON.stringify(contact));
 
         // Mettre le prix total de la commande dans le local storage
         localStorage.setItem("prixTotal", JSON.stringify(tableauDesPrix));
         
+        contact = {
+            firstName:contact.prenom, 
+            lastName:contact.nom, 
+            city:contact.ville,
+            address:contact.adresse, 
+            zip:contact.codepostal, 
+            email:contact.email, 
+        }
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
         const valeurFormEtArticle = {
-            articleLocalStrg,
-            formulaireValeur,
-            tableauDesPrix
+            // articleLocalStrg,
+            products: [],
+           // boucle d'envoi de la liste du panier
+            contact,
+            // tableauDesPrix
         };
         envoiVersServer(valeurFormEtArticle);
     }
@@ -355,31 +363,25 @@ function envoiFormulaire(form){
 function envoiVersServer(valeurFormEtArticle){
     // Envoi de l'objet "valeurFormEtArticle" vers le server 
 
-    const EnvoiCommand = fetch("http://localhost:3000/api/furnitures",{
+    fetch("http://localhost:3000/api/furniture/order",{
         method: "POST",
         body: JSON.stringify(valeurFormEtArticle),
         headers: {
             "content-type" :"application/json",
         }
-    });
+    })
 
     // Pour voir le résulat du server dans la console méthode
-    EnvoiCommand.then(async(response) => {
+    .then((response) =>{
+        return response.json()
+    })
+    .then((response) => {
         try{
-            const contenu = await response.json();
-            if(response.ok){
-                console.log("Requête réuissie");
-
-                // Récupération de l'ID de la response du server et mise dans le local storage
-                localStorage.setItem("responseIdServer", contenu._Id) 
-
-                // Aller à la page de confirmation de la commande
-                window.location.href ="confirmation.html"
-
-            }
-            else{
-                alert(`Il semble qu'une erreur ${response.status} est survenue lors du chargemet des données depuis l'API`)
-            }
+            const contenu = response;
+            // Récupération de l'ID de la response du server et mise dans le local storage
+            localStorage.setItem("responseIdServer", contenu.orderId);
+            // Aller à la page de confirmation de la commande
+            window.location.href ="confirmation.html";       
         }
         catch(e){
             alert(`Il semble qu'une erreur ${e} est survenue lors du chargement des données depuis l'API`)
@@ -392,8 +394,6 @@ function envoiVersServer(valeurFormEtArticle){
 const datalocalStorage = localStorage.getItem("formulaireValeur");
 
 // Convertir la chaine de caractère en objet JSON
-
-
 if(datalocalStorage != null){
     const datalocalStorageObjet = JSON.parse(datalocalStorage);
     // Mettre les valeurs du local storage dans le formulaire
