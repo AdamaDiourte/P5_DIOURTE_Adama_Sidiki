@@ -35,7 +35,7 @@ async function getDataArticle(id = null) { /* NB: id est nulle par défaut, c'es
 function htmlArticle(articleChoisi){
     return `
     <div class="card  col-md-6">
-        <img src="${articleChoisi.imageUrl}" class="img-card" >
+        <img src="${articleChoisi.imageUrl}" class="img-card"alt="image de l'article" >
 
         <div class="div-article-titre-prix">
             <h4 class="Bold text">${articleChoisi.name}</h4>
@@ -45,12 +45,10 @@ function htmlArticle(articleChoisi){
         <figcaption class="description">${articleChoisi.description}</figcaption>
         <div class="div-slect-btn">
             <form class="div-select" id "form-perso-article">
-                <label class="titre-label" for="">Vernisage</label>
-                <select onchange="optionDeVernis(this.value)" class="champ-selection champ-selection-modif-1" id="monselect">
-                   
-                </select>
+                <label class="titre-label" for="" aria-label="vernissage">Vernisage</label>
+                <select onchange="optionDeVernis(this.value)" class="champ-selection champ-selection-modif-1" id="monselect" aria-label="vernis choisi"></select>
             </form>
-            <button type="button" onclick='ajouterAuPanier(${JSON.stringify(articleChoisi)})' class="btn btn-secondary btn-modif-1 ">Ajouter au panier</button>
+            <button type="button" onclick='ajouterAuPanier(${JSON.stringify(articleChoisi)})' class="btn btn-secondary btn-modif-1" >Ajouter au panier</button>
         </div>
     </div>
 `

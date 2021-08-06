@@ -42,7 +42,7 @@ else{
                 <div class="font-weight-bold div-nom-produit">${articleLocalStrg[k].name}</div>
                 <div class="font-weight-bold"> ${articleLocalStrg[k].varnish}</div>
                 <div class="font-weight-bold"> ${articleLocalStrg[k].price}.00 € </div>
-                <div class="font-weight-bold btn-supprim" onclick="btnSupprim ()"><i class=" icone-supprimer far fa-trash-alt"></i></div>
+                <div class="font-weight-bold btn-supprim" onclick="btnSupprim ()"><i class=" icone-supprimer far fa-trash-alt" aria-label="icône poubelle pour supprimer"></i></div>
             </div>
         `;
     }
@@ -59,7 +59,7 @@ function btnSupprim (){
     
     for(let n = 0; n < iconeSupprimer.length; n++){
     
-        // Sélection de l'ID de l'article à supprimer 
+        // Sélection du vernis de l'article à supprimer 
         let supprimeArticle = articleLocalStrg[n].varnish;
         
         // Supression de l'élément ciblé sans supprimer le reste des éléments du panier 
@@ -153,7 +153,7 @@ const formulaireHtml = () => {
                 </div>
 
                 <div class="btn div-btn-commande">
-                    <div><button id="envoi-formulaire" class="btn btn-success" type="" name="envoi-formulaire">Commander</button></div>
+                    <div aria-lable="bouton de commande"><button id="envoi-formulaire" class="btn btn-success font-weight-bold" name="envoi-formulaire">Commander</button></div>
                 </div>
 
             </form>
@@ -164,8 +164,6 @@ const formulaireHtml = () => {
     // Injection de la structure HTML du formulaire dans le HTML dans le 
     formulaireCommande.insertAdjacentHTML("afterend", structureFormulaire);
 } 
-
-
 
 // Condition d'affichage du formulaire
 if(articleLocalStrg === null || articleLocalStrg == 0){
@@ -331,8 +329,10 @@ function envoiFormulaire(form){
         // Mettre l'objet "contact" dans le local storage
         localStorage.setItem("formulaireValeur", JSON.stringify(contact));
 
+        // Mettre la liste de prix des artciles commandés dans le local storage
+        localStorage.setItem("tableauPrix", JSON.stringify(tableauDesPrix));
         // Mettre le prix total de la commande dans le local storage
-        localStorage.setItem("prixTotal", JSON.stringify(tableauDesPrix));
+        localStorage.setItem("prixTotal", JSON.stringify(prixTotal));
         
         contact = {
             firstName:contact.prenom, 
@@ -344,19 +344,15 @@ function envoiFormulaire(form){
         }
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
         const valeurFormEtArticle = {
-            // articleLocalStrg,
-            products: [],
-           // boucle d'envoi de la liste du panier
+            products: [], /* boucle d'envoi de la liste du panier*/
+           
             contact,
-            // tableauDesPrix
         };
         envoiVersServer(valeurFormEtArticle);
     }
     else{
         alert("Les champs du formulaire ne sont pas bien remplis. Veuillez les remplir SVP!")
     }
-
-   
 };
 
 // Fonction d'envoi du formulaire vers le server

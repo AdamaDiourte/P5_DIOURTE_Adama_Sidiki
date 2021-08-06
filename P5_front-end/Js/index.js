@@ -49,14 +49,14 @@ function affichageArticle(article){
     
         <div class="card col-md-5">
 
-            <img class="img-card" src ="${article.imageUrl}">
+            <img class="img-card" src ="${article.imageUrl}" alt="image de l'article">
 
             <div class="div-article-titre-prix">
-                <h4 class="titre-article"> ${article.name}</h4>
+                <h3 class="titre-article"> ${article.name}</h3>
                 <span class="lead">Prix : ${article.price / 100}.00 € </span>
             </div>
 
-            <a href="/P5_front-end/html/article.html?id=${article._id}"><button class="btn btn-secondary btn-modif-1">Voir plus</button></a>
+            <a href="/P5_front-end/html/article.html?id=${article._id}"><button class="btn btn-secondary btn-modif-1" type="button">Voir plus</button></a>
 
         </div>
     `;
