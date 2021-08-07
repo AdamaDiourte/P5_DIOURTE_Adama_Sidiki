@@ -1,1 +1,0 @@
-import{recupArticleDansAPI} from "../src/index.js"

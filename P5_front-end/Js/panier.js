@@ -345,9 +345,10 @@ function envoiFormulaire(form){
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
         const valeurFormEtArticle = {
             products: [], /* boucle d'envoi de la liste du panier*/
-           
+        
             contact,
         };
+        
         envoiVersServer(valeurFormEtArticle);
     }
     else{
