@@ -107,7 +107,7 @@ const prixTotalHtml = `
 /*|||||||||||||||||||||||||Début-------GESTION DU FORMULAIRE |||||||||||||||||||||||||||||||*/  
 
 // Fonction structure HTML du formulaire de commande
-const formulaireHtml = () => {
+function formulaireHtml(){
     // Ciblage de la zone du DOM pour l'injection du code HTML du formualire de commande 
     const formulaireCommande = document.getElementById("container-article-panier");
 
@@ -190,12 +190,13 @@ function getFormValeur(){
     }
 }
 
-// Fonction de gestion du formulaire
+// Fonction synchronisation du formulaire et le local storage 
 function synchroLocalStrgDataForm(form){
     const formulaireValeur = getFormValeur();
     window.localStorage.setItem("formulaireValeur", JSON.stringify(formulaireValeur));
 }
 
+// Fonction de gestion du formulaire
 function envoiFormulaire(form){
    
    let contact = getFormValeur();
@@ -401,7 +402,5 @@ if(datalocalStorage != null){
     document.getElementById("codepostal").value = datalocalStorageObjet.codepostal;
     document.getElementById("email").value = datalocalStorageObjet.email;
 }
-
-
 
 /*||||||||||||||||||||||||| Fin-------GESTION DU FORMULAIRE |||||||||||||||||||||||||||||||*/ 
