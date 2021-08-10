@@ -15,16 +15,11 @@ const formulaireValeur = localStorage.getItem("formulaireValeur");
 // Récupération de la clé des produits enregistrés dans le panier 
 const produit = localStorage.getItem("produit");
 
-//--------- Structructure HTML de la page confirmation commande
-
-// Sélection de l'élément DOM où sera injecté la structure HTML dans le Js
+//--- Structructure HTML de la page confirmation commande
 const confirmationCommande = document.getElementById("container-article-panier-confirmation");
-
 // Strcuture du code HTML à injecter
 const structureConfirmationCommande = `
-
     <h3 class="titre-detail-produit">Confirmation de votre commande</h3>
-
     <div class="div-confirmation">
         <p class="text-success">Votre commande a été enregistrée avec succès !</p>
         <p class="text-secondary">Montant total : ${prixTotal}.00 € </p>
@@ -32,15 +27,11 @@ const structureConfirmationCommande = `
         <p class="text-primary">Au plaisir de vous retrouver sur Orinoco !</p>
         
     </div>
-
 `;
 
 // Injection de la structure dans le HTML
-
 confirmationCommande.insertAdjacentHTML("afterbegin", structureConfirmationCommande);
-
 /*||||||||||||||||||||||Fin-----GESTION DE LA COMMANDE|||||||||||||||||||||||*/
-
 
 
 // Fonction pour effacer les clés et les valeurs dans le Local Storage 
@@ -48,11 +39,12 @@ function supprimerCleLoclastorage (key) {
     localStorage.removeItem(key);
 };
 
-supprimerCleLoclastorage("prixTotal")
-supprimerCleLoclastorage("tableauPrix")
-supprimerCleLoclastorage("responseIdServer")
-supprimerCleLoclastorage("articleCliquer")
-supprimerCleLoclastorage("formulaireValeur")
-supprimerCleLoclastorage("produit")
+// Différents appels de la fonction de suppression
+supprimerCleLoclastorage("prixTotal");
+supprimerCleLoclastorage("tableauPrix");
+supprimerCleLoclastorage("responseIdServer");
+supprimerCleLoclastorage("articleCliquer");
+supprimerCleLoclastorage("formulaireValeur");
+supprimerCleLoclastorage("produit");
 
 

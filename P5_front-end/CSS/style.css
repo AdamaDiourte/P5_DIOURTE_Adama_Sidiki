@@ -11,8 +11,6 @@ body{
     padding: 0;
     background-color: rgb(235, 235, 235);
     width: 100%;
-    /* max-width: 2000px; */
-    /* margin: auto; */
 }
 
 .div-main-body{
@@ -69,7 +67,6 @@ header{
     border-radius: 0 30px 30px 0;
     background-color: darkgoldenrod;
     padding: 0 !important;
-    
 }
 
 .fa-search{
@@ -87,8 +84,6 @@ header{
     font-weight: bold;
 }
 
-
-
 .div-bannierre{
     background:linear-gradient( 45deg, rgb(175, 30, 30), rgb(170, 15, 209)  );
     padding: 8rem 0 5rem 0;
@@ -98,6 +93,7 @@ header{
     justify-content: center;
     align-items: center;
 }
+
 .titre-principal{
     font-size: 2.3rem;
     color: white;
@@ -108,9 +104,9 @@ header{
     color: white;
 }
 
-
 .text-center{
     padding: 0.5rem;
+    font-size: 1.2rem;
 }
 
 .form-control-modif-1{
@@ -131,28 +127,6 @@ header{
 
 /* --------------------------BODY---------------------------------- */
 
-
-/* .titre-section{
-    font-size: 1.5rem;
-    position: relative;
-    display: flex;
-    justify-content: center;
-   
-}
-
-.titre-section::after{
-
-    position: absolute;
-    content: "";
-    display: block;
-    bottom: -10px;
-    width:30%;
-    height: 0.2rem;
-    align-items: center;
-    
-    border: 2px solid coral;
-} */
-
 .div-card{
     padding: 0 0.5rem
 }
@@ -167,19 +141,6 @@ header{
     border: 1px solid rgb(148, 4, 161);
     
 }
-
-/* .card img{
-    max-width: 322px;
-    max-height: 208px;
-} */
-
-/* .card-chaise-modif-1 img{
-    max-height: 400px;
-    object-fit: cover;
-    object-position: 0% 0%;
-    
-} */
-
 
 .lead{
     font-size: 0.9rem;
@@ -197,15 +158,7 @@ header{
     margin-bottom: 2rem;
 }
 
-
-/* ---------------------PAGE PANIER----------------- */
-
-
 /* ---------------FOOTER------------------------------ */
-
-/* .lien-footer{
-    color: white;
-} */
 
 .footer{
     margin-top: 1rem;
@@ -241,8 +194,6 @@ li{
     text-align: justify;
     padding: 0.2rem;
 }
-
-
 
 .titre-article-modif-1{
     font-size: 1.3rem;
@@ -283,8 +234,6 @@ li{
     align-items: center;
 }
 
-
-
 @media screen and (min-width: 280px) {
 
     .navbar{
@@ -321,7 +270,6 @@ li{
     }
 }
 
-
 .div-bouton{
     display: flex;
     justify-content: space-between;
@@ -333,16 +281,12 @@ li{
     font-size: 0.9rem;
 }
 
-
 @media screen and (min-width: 320px){
     .btn-recherche{
         padding: .2rem;
        
     }
 }
-
-
-
 
 /* -----------------------PAGE PANIER--------------------- */
 
@@ -354,7 +298,7 @@ li{
     align-items: center;
 }
 
- .container-recapitulalitf{
+.container-recapitulalitf{
     background-color:white;
     padding: 15px 5px;
     border-radius: 10px;
@@ -362,9 +306,11 @@ li{
     margin-bottom: 5px;
     font-size: 0.8rem;
 }
+
 .text-prixTotal{    
     font-size: 1rem;
 }
+
 .div-nom-produit{
     width: 50%;
 }
@@ -378,14 +324,6 @@ li{
 .fa-trash-alt{
     cursor: pointer;
 }
-
-
-
-
-
-/* .container-article-panier{
-    border: 1px solid coral;
-} */
 
 .produit, .quantite, .supprimer, .sous-total{
     border: 1px solid rgb(125, 143, 245);
@@ -405,8 +343,7 @@ li{
 .supprimer{
     border-radius: 0 10px 10px 0;
     cursor: pointer;
-    transition: .7s ease 0.2s;
-    
+    transition: .7s ease 0.2s;   
 }
 
 .fa-trash-alt{
@@ -427,6 +364,7 @@ li{
     height: 50px;
     padding: 0 0 0.2rem 0.2rem;
 }
+
 .img-titre-panier{
     display: flex;
     justify-content: space-around;
@@ -442,6 +380,7 @@ li{
 .panier{
     padding: .2rem;
 }
+
 .titre-formulaire{
     font-size: 1.1rem;
 }
@@ -450,6 +389,7 @@ label{
     margin:0px;
     font-weight: 400;
 }
+
 .form-control{
     margin-bottom: 15px;
     font-weight: 600;
@@ -460,16 +400,16 @@ label{
 }
 
 .footer-panier{
-    margin-top: 2rem;
-    
+    margin-top: 2rem;    
 }
-
 
 .div-btn-commande{
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+
 /* ----------------------PAGE CONFIRMATION---------------------------- */
 
 .div-confirmation{
@@ -480,7 +420,6 @@ label{
     padding: 2rem;
     margin-bottom: 2rem;
 }
-
 
 /* -----------------------TABLETTE----------------------------------- */
 @media screen and (min-width: 768px){
@@ -495,19 +434,6 @@ label{
     .text-center-modif-1{
         font-size: 1.5rem;
     }
-
-    /* .titre-section{
-        font-size: 1.8rem;
-        justify-content: center;
-    }
-
-    .titre-section::after{
-        width:10%;
-        bottom: -15px;
-        height: 0.5rem;
-        background-color: coral;
-        border-radius: 50px;
-    } */
 
     .nbreArticlePanier{
         font-size:1rem;
@@ -524,11 +450,9 @@ label{
         margin: 3rem 0;
     }
 
-
     .card-modif-1{
         transform: scale(1);
         transition: transform .5s ease-in;
-    
     }
 
     .card-modif-1:hover{
@@ -536,17 +460,6 @@ label{
     
     }
 
-    /* .card-chaise-modif-1{
-        width: 400px;
-        height: 400px;
-    } */
-
-    /* .card-chaise-modif-1 img{
-    max-height: 400px;
-    object-fit: cover;
-    object-position: 0% 0%;
-    
-} */
     .titre-article{
         font-size:1rem
     }
@@ -555,13 +468,13 @@ label{
         justify-content: space-evenly;
         align-items: center;
     }
-   .media-largeur-fixe{
+    .media-largeur-fixe{
        max-width: 500px;
        margin: auto;
-   }
+    }
    
-   .container-recapitulalitf,
-   .text-prixTotal{
+    .container-recapitulalitf,
+    .text-prixTotal{
         font-size: 1.3rem;
     }
     
@@ -571,6 +484,7 @@ label{
         margin: auto;
     }
 }
+
 /* ----------------------------DESKTOP------------------------- */
 @media screen and (min-width: 1000px){
     .main-container,.div-form {
@@ -584,5 +498,4 @@ label{
         min-width: 280px;
         margin: auto;
     } 
- 
 }

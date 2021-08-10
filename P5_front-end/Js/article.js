@@ -9,11 +9,11 @@ let recupIdArticle = params.get('id'); // Récupère la valeur correspondante à
 /*||||||||||||| Début----RECUPERATION DE L'ARTICLE DEPUIS L'API AU CLIQUE DU BOUTON VOIR PLUS ||||||||||||*/
 
 /* Fonction qui récupère tous les articles de l'API et filtre  celui qui a été cliqué par l'utilisateur*/
-async function getDataArticle(id = null) { /* NB: id est nulle par défaut, c'est à dire dans le cas où elle n'est pas indiquée dans les parametres à l'appel de getDataArticle() */
+async function getDataArticle(id = null) { /* L'id est nulle par défaut dans le cas où elle n'est pas indiquée dans les parametres à l'appel de getDataArticle() */
     try {
         const data = await fetch(`http://localhost:3000/api/furniture/`); /* stocke le fichier récupéré depuis l'API, await permet d'attendre que le fetch soit réalisé avant d'exécuter la suite en dessous */
         const json = await data.json() /* convertit en JSON le fichier récupéré depuis l'API, idem pour await*/;
-        if (id) { /* NB: meme chose que: id != null */
+        if (id) { /* Equivaut à id != null */
            let articleChoisi = json.find(article => article._id == id); /* NB: ici la fonction find() permet de ne retourner que l'article qui nous intéresse parmi tous les articles contenus dans le tableau 'json' */
            return articleChoisi
         }
@@ -25,7 +25,6 @@ async function getDataArticle(id = null) { /* NB: id est nulle par défaut, c'es
         return []; /* Retournne un tableau vide */
     }
 }
-
 /*|||||||||||||| Fin----RECUPERATION DE L'ARTICLE DEPUIS L'API AU CLIQUE DU BOUTON VOIR PLUS ||||||||||||||||*/
 
 
@@ -57,7 +56,7 @@ function htmlArticle(articleChoisi){
 // Injection de la structure HTML de l'article sélectionné dans le HTLM
 const templateHtmlArticle = document.getElementById("container-article");
 
-// Fonction qui stock le vernis choisi par le l'utilsateur
+// Fonction qui stock le vernis choisi par l'utilsateur
 let verniSelect = null;
 function optionDeVernis (value){
     verniSelect = value;
@@ -84,10 +83,7 @@ getDataArticle(recupIdArticle).then(article => {
         selectBalise.innerHTML = listeVernis;
     }
 })
-
 /*|||||||||||||||||||||||| Fin----AFFICHAGE DE L'ARTICLE AU CLIQUE |||||||||||||||||||||||||||||*/
-
-
 
 
 /*||||||||| Début----PERSONNALISATION DE L'ARTICLE SELECTIONNE et GESTION DU PANIER ||||||||||*/
@@ -126,7 +122,6 @@ Cliquez sur OK pour voir le panier ou sur ANNULER pour continuer vos achats`)){
     // S'il y a des produits enregistrés dans le local storage
     if (articleLocalStrg){
        ajouterArticleLocalStrg();
-
     } 
 
     // S'il n'y a pas de produits enregistrés dans le local storage
@@ -134,9 +129,6 @@ Cliquez sur OK pour voir le panier ou sur ANNULER pour continuer vos achats`)){
         articleLocalStrg = [];
         ajouterArticleLocalStrg();
     }
-
     popUpConfirmation();
-    
 }
-
 /*|||||||||||| Fin----PERSONNALISATION DE L'ARTICLE SELECTIONNE et GESTION DU PANIER |||||||||*/

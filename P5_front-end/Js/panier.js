@@ -1,111 +1,126 @@
 /*|||||||| Début----AFFICHAGE DYNAMIQUE DES ARTCILES SELECTIONNES DANS LE PANIER  |||||||||*/ 
 let articleLocalStrg = JSON.parse(localStorage.getItem("produit")); /*La méthode JSON.parse sert à faire passer les données du local storage du JSON en objet JavaScript*/
-console.log(articleLocalStrg);
+
 const templateHtmlPanier = document.getElementById("container-article-panier"); /* conteneur où seront injectés les produits envoyés dans le panier */
 
-// --------Message à afficher selon l'état du panier
-if(articleLocalStrg === null || articleLocalStrg == 0){
-    // Message à afficher si le panier est vide
-    const messagePanierVide = `
-    <div class="text-center text-center-modif-1"> 
-        <div>Votre panier est vide pour l'instant</div>
-    </div>
-    `;
-    templateHtmlPanier.innerHTML = messagePanierVide 
-}
-    
-else{
-    // info : nombre de produits enregistrés dans le panier 
-   let nbrArticlePanier = [];
-    nbrArticlePanier = articleLocalStrg.length;
-    const navBar = document.querySelector(".nbrpanier");
-    const nbrArticleDansPaniier = `
-    <span class="nbreArticlePanier">${nbrArticlePanier}</span>`;
-    navBar.insertAdjacentHTML("beforeEnd", nbrArticleDansPaniier); 
-    
-    // Message à afficher si le panier n'est pas vide
-    const messagePanierAvecProduit = `
-    <div class="text-center text-center-modif-1"> 
-        <div>Votre panier contient les articles suivants : </div>
-    </div>
-    `;
-    templateHtmlPanier.innerHTML = messagePanierAvecProduit; 
-
-    // ---------Boucle FOR sert afficher les articles selon le nombre de choix du client 
-
-   let htmlArticlePanier = []; /* variable vide au départ mais se remplit au fur et mesure que le client choisse un article*/
-   
-    for(let k = 0; k < articleLocalStrg.length; k++){
-        // Structure HTLM de la présentataion des produits dans le panier 
-        htmlArticlePanier += `
-            <div class="container-recapitulalitf">
-                <div class="font-weight-bold div-nom-produit">${articleLocalStrg[k].name}</div>
-                <div class="font-weight-bold"> ${articleLocalStrg[k].varnish}</div>
-                <div class="font-weight-bold"> ${articleLocalStrg[k].price}.00 € </div>
-                <div class="font-weight-bold btn-supprim" onclick="btnSupprim ()"><i class=" icone-supprimer far fa-trash-alt" aria-label="icône poubelle pour supprimer"></i></div>
-            </div>
+(function affichPanier(){
+    // --------Message à afficher selon l'état du panier
+    if(articleLocalStrg === null || articleLocalStrg == 0){
+        // Message à afficher si le panier est vide
+        const messagePanierVide = `
+        <div class="text-center text-center-modif-1"> 
+            <div>Votre panier est vide pour l'instant</div>
+        </div>
         `;
+        templateHtmlPanier.innerHTML = messagePanierVide 
     }
-    //Code à injecter dans le HTML
-    templateHtmlPanier.insertAdjacentHTML("beforeEnd", htmlArticlePanier ); 
+    
+    else{
+        // info : nombre de produits enregistrés dans le panier 
+        let nbrArticlePanier = [];
+        nbrArticlePanier = articleLocalStrg.length;
+        const navBar = document.querySelector(".nbrpanier");
+        const nbrArticleDansPaniier = `
+        <span class="nbreArticlePanier">${nbrArticlePanier}</span>`;
+        navBar.insertAdjacentHTML("beforeEnd", nbrArticleDansPaniier); 
+        
+        // Message à afficher si le panier n'est pas vide
+        const messagePanierAvecProduit = `
+        <div class="text-center text-center-modif-1"> 
+            <div>Votre panier contient les articles suivants : </div>
+        </div>
+        `;
+        templateHtmlPanier.innerHTML = messagePanierAvecProduit; 
 
-}
+        // ---Boucle FOR sert afficher les articles selon le nombre de choix du client 
+        let htmlArticlePanier = []; /* variable vide au départ mais se remplit au fur et à mesure que le client choisse un article*/
+        for(let k = 0; k < articleLocalStrg.length; k++){
+            // Structure HTLM de la présentataion des produits dans le panier 
+            htmlArticlePanier += `
+                <div class="container-recapitulalitf">
+                    <div class="font-weight-bold div-nom-produit">${articleLocalStrg[k].name}</div>
+                    <div class="font-weight-bold"> ${articleLocalStrg[k].varnish}</div>
+                    <div class="font-weight-bold"> ${articleLocalStrg[k].price}.00 € </div>
+                    <div class="font-weight-bold btn-supprim"><i class="icone-supprimer far fa-trash-alt" aria-label="icône poubelle pour supprimer"></i></div>
+                </div>
+            `;
+        }
+        //Code à injecter dans le HTML
+        templateHtmlPanier.insertAdjacentHTML("beforeEnd", htmlArticlePanier ); 
+        btnSupprim(); /*Fonction de suppression des articles enregistrés dans le panier*/
+    }
+})();
 /*|||||||| Fin----AFFICHAGE DYNAMIQUE DES ARTCILES SELECTIONNES DANS LE PANIER  |||||||||*/
 
 
 /*|||||||||||||||||| Début---SUPPRESSION ARTICLE DANS LE PANIER ||||||||||||||||||||||||*/ 
-function btnSupprim (){
-    let iconeSupprimer = document.querySelectorAll(".icone-supprimer"); /*Ciblage de l'icône de suppression*/
+function btnSupprim(){
+    let iconeSupprimer = document.getElementsByClassName("icone-supprimer"); /*Ciblage de l'icône de suppression*/
     
     for(let n = 0; n < iconeSupprimer.length; n++){
-    
-        // Sélection du vernis de l'article à supprimer 
-        let supprimeArticle = articleLocalStrg[n].varnish;
-        
-        // Supression de l'élément ciblé sans supprimer le reste des éléments du panier 
-        articleLocalStrg = articleLocalStrg.filter(el => el.varnish !== supprimeArticle); 
-       
-        //Envoi de la variable dans le local storage
-        localStorage.setItem("produit", JSON.stringify(articleLocalStrg)); /*Création de la clé "produit" dans le local storage*/
-        
-        // Avertissment pour la suppression d'un article du panier
-        alert("Cliquez sur OK pour supprimer cet article du panier");
-        window.location.href = "panier.html";
+        //Action à déclencher au clique sur l'icône "poubelle" 
+        iconeSupprimer[n].addEventListener("click", (e)=>{
+            let index = 0;
+            let parent = iconeSupprimer[n].parentElement.parentElement;
+            let sibling = parent.previousElementSibling; 
+            while(sibling){ 
+                if(sibling.classList.contains("container-recapitulalitf")){
+                    index+=1;
+                    sibling = sibling.previousSibling;
+                };
+                break;
+            }
+            articleLocalStrg.splice(index, 1);
+            parent.remove();
+            
+            alert("Cliquez sur OK pour supprimer cet article du panier"); /*Message de confirmation de la suppression*/
+            getDisplayTotal(); /*Gestion du calcul des prix*/
+            window.location.href = "panier.html"; /*Rafraichi la page pour la prise en compte des suppressions*/
+            localStorage.setItem("produit", JSON.stringify(articleLocalStrg));/*Création de la clé "produit" dans le local storage*/       
+        });
     };
-}
+};
 /*|||||||||||||||||| Fin---SUPPRESSION ARTICLE DANS LE PANIER ||||||||||||||||||||||||*/
 
 
-/*|||||||||||||||||| Début---CALCUL DU MONTANT TOTAL DE LA COMMANDE ||||||||||||||||||||*/
 
-// Déclaration de la variable qui contient tout le prix de l'ensemble des articles dans le panier
-let tableauDesPrix = []; /*La variable est vide au départ et se remplit selon les articles choisis*/
+/*|||||||||||||||||| Début--MONTANT TOTAL DE LA COMMANDE ||||||||||||||||||||*/
+// Fonction de gestion du montant total de la commande : calcul, affichage et suppression 
+function getDisplayTotal(){
+    // Déclaration de la variable qui contient le prix de l'ensemble des articles dans le panier
+    let local = JSON.parse(localStorage.getItem("produit")); /*La méthode JSON.parse sert à faire passer les données du local storage du JSON en objet JavaScript*/
+    let tableauDesPrix = []; /*La variable est vide au départ et se remplit selon les articles choisis*/
 
-// Récupération des prix dans le panier avec une boucle for
-for(let m = 0; m < articleLocalStrg.length; m++ ){
-    // Récupération du prix de tous les articles dans le panier
-    let prixDesCommandes =  articleLocalStrg[m].price;
+    // Récupération des prix dans le panier avec une boucle for
+    for(let m = 0; m < local.length; m++ ){
+        // Récupération du prix de tous les articles dans le panier
+        let prixDesCommandes =  local[m].price;
+        //Envoi des prix récupérés dans le tableau
+        tableauDesPrix.push(prixDesCommandes)
+    }
 
-    //Envoi des prix récupérés dans le tableau
-    tableauDesPrix.push(prixDesCommandes)
+    //Addition des prix avec la méthode .reduce
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    const prixTotal = tableauDesPrix.reduce(reducer, 0);
+
+    const texteTotal = document.getElementById("container-montant-total"); 
+    if(texteTotal){
+        texteTotal.remove()
+    }
+    // Le code HTML du prix total à afficher 
+    const prixTotalHtml = `
+        <div id="container-montant-total">
+            <div class="font-weight-bold text-danger text-prixTotal">Prix total = ${prixTotal}.00 €</div>
+        </div>
+    `;
+    // Injection du prix total dans la page HTML du panier 
+    templateHtmlPanier.insertAdjacentHTML("beforeEnd", prixTotalHtml);
+    localStorage.setItem("prixTotal", JSON.stringify(prixTotal));
 }
-
-//Addition des prix avec la méthode .reduce
-const reducer = (accumulator, currentValue) => accumulator + currentValue;
-const prixTotal = tableauDesPrix.reduce(reducer, 0);
-
-// Le code HTML du prix total à afficher 
-const prixTotalHtml = `
-    
-    <div class="container-montant-total">
-        <div class="font-weight-bold text-danger text-prixTotal">Prix total = ${prixTotal}.00 €</div>
-    </div>
-`;
-/*|||||||||||||||||| FIN---CALCUL DU MONTANT TOTAL DE LA COMMANDE |||||||||||||||||||||||||||||||||*/
+/*|||||||||||||||||| FIN--MONTANT TOTAL DE LA COMMANDE |||||||||||||||||||||||||||||||||*/
 
 
-/*|||||||||||||||||||||||||Début-------GESTION DU FORMULAIRE |||||||||||||||||||||||||||||||*/  
-
+/*|||||||||||||||||||||||||Début-----GESTION DU FORMULAIRE |||||||||||||||||||||||||||||||*/  
 // Fonction structure HTML du formulaire de commande
 function formulaireHtml(){
     // Ciblage de la zone du DOM pour l'injection du code HTML du formualire de commande 
@@ -161,25 +176,24 @@ function formulaireHtml(){
         </div>
 
     `; 
-    // Injection de la structure HTML du formulaire dans le HTML dans le 
+    // Injection de la structure HTML du formulaire dans le HTML
     formulaireCommande.insertAdjacentHTML("afterend", structureFormulaire);
 } 
 
-// Condition d'affichage du formulaire
-if(articleLocalStrg === null || articleLocalStrg == 0){
-    console.log("Vous avez suppimez tous les articles du panier");
-    
-}
-else{
-    // Injection du prix total dans la page HTML du panier 
-    templateHtmlPanier.insertAdjacentHTML("beforeEnd", prixTotalHtml);
-    // Affichage du formulaire de commande
-    formulaireHtml();
-}
+// Fonction auto-invoquée pour gérer les conditions d'affichage du formulaire
+(function affichForm(){
+    // Condition d'affichage du formulaire
+    if(articleLocalStrg === null || articleLocalStrg == 0){
+        console.log("Vous avez suppimez tous les articles du panier");
+    }
+    else{
+        getDisplayTotal(); // Gestion du calcul des prix
+        formulaireHtml(); // Affichage du formulaire de commande
+    }
+})();
 
+// Récupération des valeurs du formaulaire pour les mettre dans le local storage
 function getFormValeur(){
-    // Récupération des valeurs du formaulaire pour les mettre dans le local storage
-    
     return {
         prenom: document.getElementById("prenom").value,
         nom: document.getElementById("nom").value,
@@ -198,7 +212,7 @@ function synchroLocalStrgDataForm(form){
 
 // Fonction de gestion du formulaire
 function envoiFormulaire(form){
-   
+
    let contact = getFormValeur();
     
     /*-------Début-----Contrôle de la validation des champs du formulaire---------*/ 
@@ -211,6 +225,7 @@ function envoiFormulaire(form){
         return /^[A-Za-z\s-]{2,20}$/.test(value);
     }
 
+    //Variable expression régulière code postal
     const regexlecodepostal = (value) =>{
         return /^[0-9]{5}$/.test(value)
     }
@@ -228,7 +243,6 @@ function envoiFormulaire(form){
     // Contrôle la validité du prénom
     function prenomControle(){
         const leprenom = contact.prenom;
-        
         // Condition pour contrôler le remplissage du formulaire avec la méthode regex oou expression régulière 
         if(regexPrenomNomVille(leprenom)){
             document.getElementById("prenom").textContent = "";
@@ -239,7 +253,6 @@ function envoiFormulaire(form){
             alert(textAlert("Prénom"))
             return false;
         };
-
     }
     
     // Contrôle la validité du nom
@@ -255,10 +268,8 @@ function envoiFormulaire(form){
             alert(textAlert("Nom"))
             return false;
         };
-
     }
 
-    
     // Contrôle la validité de l'adresse
     function adresseControle(){
         const ladresse = contact.adresse;
@@ -272,7 +283,6 @@ function envoiFormulaire(form){
             alert("L'adresse ne doit pas contenir de signes de ponctuation ou de caractères spéciaux")
             return false;
         };
-
     }
 
     // Contrôle la validité de la ville
@@ -327,13 +337,9 @@ function envoiFormulaire(form){
 
     // Condition pour envoyer ou non le formulaire selon le remplissage des champs 
     if(prenomControle() && nomControle() && villeControle() && lecodepostalControle() && emailControle() && adresseControle() && villeControle() ){
+       
         // Mettre l'objet "contact" dans le local storage
         localStorage.setItem("formulaireValeur", JSON.stringify(contact));
-
-        // Mettre la liste de prix des artciles commandés dans le local storage
-        localStorage.setItem("tableauPrix", JSON.stringify(tableauDesPrix));
-        // Mettre le prix total de la commande dans le local storage
-        localStorage.setItem("prixTotal", JSON.stringify(prixTotal));
         
         contact = {
             firstName:contact.prenom, 
@@ -345,7 +351,7 @@ function envoiFormulaire(form){
         }
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
         const valeurFormEtArticle = {
-            products: [], /* boucle d'envoi de la liste du panier*/
+            products: [], /* la liste du panier*/
         
             contact,
         };
@@ -359,8 +365,8 @@ function envoiFormulaire(form){
 
 // Fonction d'envoi du formulaire vers le server
 function envoiVersServer(valeurFormEtArticle){
+    
     // Envoi de l'objet "valeurFormEtArticle" vers le server 
-
     fetch("http://localhost:3000/api/furniture/order",{
         method: "POST",
         body: JSON.stringify(valeurFormEtArticle),
@@ -368,8 +374,7 @@ function envoiVersServer(valeurFormEtArticle){
             "content-type" :"application/json",
         }
     })
-
-    // Pour voir le résulat du server dans la console méthode
+    // Pour voir le résulat du server dans la console
     .then((response) =>{
         return response.json()
     })
@@ -387,13 +392,11 @@ function envoiVersServer(valeurFormEtArticle){
     })
 };
 
-// Garder le contenu du champ du formulaire après raffraîchessment de la page 
-// Prendre la clé du local storage pour la mettre dans une variable 
-const datalocalStorage = localStorage.getItem("formulaireValeur");
+//---Garder le contenu du champ du formulaire après raffraîchessment de la page 
+const datalocalStorage = localStorage.getItem("formulaireValeur"); /*Prendre la clé du local storage pour la mettre dans une variable*/ 
 
-// Convertir la chaine de caractère en objet JSON
 if(datalocalStorage != null){
-    const datalocalStorageObjet = JSON.parse(datalocalStorage);
+    const datalocalStorageObjet = JSON.parse(datalocalStorage); /* Convertir la chaine de caractère en objet JS*/
     // Mettre les valeurs du local storage dans le formulaire
     document.getElementById("prenom").value = datalocalStorageObjet.prenom;
     document.getElementById("nom").value = datalocalStorageObjet.nom;
@@ -402,5 +405,4 @@ if(datalocalStorage != null){
     document.getElementById("codepostal").value = datalocalStorageObjet.codepostal;
     document.getElementById("email").value = datalocalStorageObjet.email;
 }
-
 /*||||||||||||||||||||||||| Fin-------GESTION DU FORMULAIRE |||||||||||||||||||||||||||||||*/ 

@@ -1,24 +1,18 @@
 /*||||||||||||| Début----FONCTION GLOBALE AFFICHAGE PAGE ACCUEIL ||||||||||||||||||||*/ 
 
 (async function main(){
-
     const articles = await recupArticleDansAPI()  /*Les articles récupérés dans l'API sont stockés dans la constate "articles*/  
-    
+
     for( article of articles){
-        affichageArticle(article)           /*Une boucle "for" qui affiche chaque "article" contenu dans la "const articles" */
+        affichageArticle(article)   /*Une boucle "for" qui affiche chaque "article" contenu dans la "const articles" */
         
     }
-})()
+})();
 
 /*||||||||||||| Fin----FONCTION GLOBALE AFFICHAGE PAGE ACCUEIL ||||||||||||||||||||*/  
 
 
-
-
-
-
 /*||||||||||||| Début----FONCTION RECUPERATION ARTICLES DANS API ||||||||||||||||||||*/  
-
 async function recupArticleDansAPI(){
     return fetch("http://localhost:3000/api/furniture") /*Depuis ce lien, la fonction "fetch" récupère les articles*/
         .then (function(dataAPI){
@@ -33,15 +27,10 @@ async function recupArticleDansAPI(){
             alert("Une erreur est survenue lors du chargement des fichiers depuis l'API")
         })
 }
-
 /*||||||||||||| Fin----FONCTION RECUPERATION ARTICLES DANS API ||||||||||||||||||||*/  
 
 
-
-
-
 /*||||||||||||| Début----FONCTION AFFICHAGE ARTICLES RECUPERES DANS API ||||||||||||||*/ 
-
 function affichageArticle(article){
 
     // Structure HTML pour l'affichage des articles
