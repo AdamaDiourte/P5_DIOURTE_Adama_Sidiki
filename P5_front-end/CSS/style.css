@@ -7,10 +7,11 @@ html{
 }
 
 body{
-    margin: 0;
     padding: 0;
     background-color: rgb(235, 235, 235);
-    width: 100%;
+    max-width: 1600px;
+    min-width: 280px;
+    margin: auto;
 }
 
 .div-main-body{
@@ -27,13 +28,16 @@ body{
 
 header{
     height: 20px;
+    max-width: 1600px;
+    min-width: 280px;
+    margin: auto;
 }
 .ul-navbar {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0pt;
+    margin: 0px;
     padding: 0;
 }
 
@@ -85,6 +89,7 @@ header{
 }
 
 .div-bannierre{
+    margin: 0px;
     background:linear-gradient( 45deg, rgb(175, 30, 30), rgb(170, 15, 209)  );
     padding: 8rem 0 5rem 0;
     height: 25vh;
