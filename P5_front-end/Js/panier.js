@@ -350,12 +350,16 @@ function envoiFormulaire(form){
             email:contact.email, 
         }
         // Mettre les valeurs du formulaire et les articles sélectionnés dans un objet à envoyer vers le server
-        const valeurFormEtArticle = {
+        const valeurFormEtArticle ={
+            
             products: [], /* la liste du panier*/
-        
+            while(articleLocalStrg){
+                articleLocalStrg.push(products)
+            },
+
             contact,
         };
-        
+    
         envoiVersServer(valeurFormEtArticle);
     }
     else{
